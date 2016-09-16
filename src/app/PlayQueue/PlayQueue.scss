@@ -1,0 +1,42 @@
+.play-queue {
+    position: absolute;
+    top: 64px;
+    right: 0;
+    bottom: $footer-height;
+    width: $play-queue-width;
+    transform: translateX(100%);
+    @media (min-width: $play-queue-show-width) {
+        transform: none;
+    }
+    @media (min-width: $play-queue-width-large-size) {
+        width: $play-queue-width-large;
+    }
+
+    box-shadow: -5px 0 10px -5px rgba(0, 0, 0, .16), -5px 0 10px -5px rgba(0, 0, 0, .23);
+
+    z-index: $z-index-higher + 1;
+
+    background: white;
+
+    overflow: hidden;
+
+    .tracks {
+        position: absolute;
+        top: 112px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .current, .currentScrolled {
+        margin: 0;
+        padding: 0;
+        box-shadow: 0;
+        transition: box-shadow $animation-duration $animation-curve-default;
+    }
+    .currentScrolled {
+        box-shadow: $zdepth-shadow-1;
+    }
+}

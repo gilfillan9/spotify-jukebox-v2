@@ -1,0 +1,42 @@
+.controls {
+    display: flex;
+    align-items: center;
+
+    .left, .right {
+        width: auto;
+        @media (min-width: 850px) {
+            width: 120px;
+        }
+
+        .button {
+            margin: 0 5px;
+        }
+    }
+
+    .left {
+        margin-right: 5px;
+
+        display: flex;
+        flex-direction: column;
+
+        @media (min-width: 850px) {
+            flex-direction: row;
+        }
+    }
+    .right {
+        display: none;
+        @media (min-width: 850px) {
+            display: block;
+        }
+        margin-left: 5px;
+    }
+}
+
+.button {
+    box-shadow: none;
+
+    &:active {
+        box-shadow: none;
+    }
+    margin: 0 13px;
+}

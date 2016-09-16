@@ -1,0 +1,8 @@
+{
+  "name": "jukebox",
+  "script": "server.js",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "max_restarts": "99999"
+}

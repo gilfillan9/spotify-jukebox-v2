@@ -1,0 +1,33 @@
+.button {
+    box-shadow: none;
+    opacity: 0;
+    transition: opacity $animation-curve-fast-out-slow-in 250ms;
+}
+
+.item {
+    max-width: $play-queue-width;
+    &:hover {
+        .button {
+            opacity: 1;
+        }
+    }
+
+    @media (min-width: $play-queue-width-large-size) {
+        max-width: $play-queue-width-large;
+    }
+}
+
+.current {
+    background: red !important;
+}
+
+.itemContentRoot span {
+    width: $play-queue-width - 144px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @media (min-width: $play-queue-width-large-size) {
+        width: $play-queue-width-large - 144px;
+    }
+}

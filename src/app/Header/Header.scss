@@ -1,0 +1,20 @@
+
+.appBar {
+    display: flex;
+
+    box-shadow: $zdepth-shadow-2 !important;
+    z-index: $z-index-higher !important;
+    position: relative;
+}
+
+.spacer {
+    display: none;
+
+    @media (min-width: 750px) {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        align-items: flex-end;
+    }
+}

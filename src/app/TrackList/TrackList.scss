@@ -1,0 +1,14 @@
+a.link {
+    color: inherit;
+    margin-right: 4px;
+
+    &::after {
+        content: ', ';
+        display: inline;
+        color: $palette-grey-800;
+    }
+
+    &:last-of-type::after {
+        display: none;
+    }
+}

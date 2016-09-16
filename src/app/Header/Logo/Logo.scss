@@ -1,0 +1,12 @@
+.logo {
+    flex: 1;
+
+    a.link {
+        font-size: 24px;
+
+        &:hover {
+            text-decoration: none;
+            color: $palette-grey-200;
+        }
+    }
+}

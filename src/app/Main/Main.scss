@@ -1,0 +1,72 @@
+.main {
+    position: absolute;
+    top: 64px;
+    bottom: $footer-height;
+    left: 0;
+
+    background: $palette-grey-100;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    right: 0;
+    @media (min-width: $play-queue-show-width) {
+        right: $play-queue-width;
+    }
+    @media (min-width: $play-queue-width-large-size) {
+        right: $play-queue-width-large;
+    }
+
+    h5 {
+        margin: 20px 0 4px 0;
+    }
+
+    .art {
+        display: none;
+        width: 20vw;
+        max-width: 250px;
+        min-height: 250px;
+
+        @media (min-width: 750px) {
+            display: initial;
+        }
+    }
+    .page, .page-raised {
+        margin: 12px 30px;
+        @media (min-width: 750px) {
+            margin: 34px 72px;
+        }
+
+        .header {
+            padding: 0 24px;
+        }
+
+        .card-list {
+            display: flex;
+
+            flex-direction: row;
+            flex-wrap: wrap;
+            flex-flow: row wrap;
+
+            margin-bottom: 12px;
+        }
+    }
+
+    .page-raised {
+        background: white;
+        border-radius: 3px;
+        box-shadow: $zdepth-shadow-1;
+        overflow: hidden;
+    }
+
+    .flex-container {
+        display: flex;
+
+        .flex {
+            flex: 1;
+            margin-top: 20px;
+            height: 100%;
+        }
+    }
+}
+

@@ -1,0 +1,16 @@
+.volume-wrap {
+    flex: 2;
+    display: none;
+    align-items: center;
+    justify-content: flex-end;
+
+    @media (min-width: 1050px) {
+        display: flex;
+    }
+
+    .volume {
+        width: 200px;
+
+        margin-right: 25px;
+    }
+}
