@@ -1,12 +1,11 @@
 import React from "react";
 import Table from "react-toolbox/lib/table/";
-import {Link, browserHistory} from "react-router";
+import {Link} from "react-router";
 import styles from "./TrackList.scss";
 import DurationTime from "duration-time-format";
 import AlbumArt from "../AlbumArt";
-import {IconMenu, MenuItem, MenuDivider} from "react-toolbox/lib/menu";
 import Socket from "../Socket";
-
+import TrackActionMenu from "../TrackActionMenu";
 
 const TrackModel = {
     title: {},
@@ -50,20 +49,7 @@ class TrackList extends React.Component {
                 album: (
                     <Link to={"/album/" + track.album.id} className={styles['link']}>{track.album.name}</Link>
                 ),
-                actions: (
-                    <IconMenu>
-                        <MenuItem caption="Add to Queue" icon="add" onClick={()=> {
-                            Socket.emit("addTrack", {track: track.uri, source: this.props.source})
-                        }}/>
-                        <MenuDivider />
-                        <MenuItem caption="View Artist" onClick={()=> {
-                            browserHistory.push("/artist/" + track.artists[0].id)
-                        }}/>
-                        <MenuItem caption="View Album" onClick={()=> {
-                            browserHistory.push("/album/" + track.album.id)
-                        }}/>
-                    </IconMenu>
-                )
+                actions: (<TrackActionMenu track={track}/>)
             }))} selectable={false}/>
         )
     }
