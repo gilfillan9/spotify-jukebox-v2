@@ -57,7 +57,7 @@ class App extends React.Component {
             Socket.on("volume", (volume) => this.setState({volume: volume}));
             Socket.on("token", (token) => Spotify.setAccessToken(token));
             Socket.on("seek", (seek) => this.setState({progress: seek}));
-            Socket.on("queue", (queue) => this.loadTracks(queue.map((item) => ({id: item[0], uuid: item[1]}))));
+            Socket.on("queue", (queue) => this.loadTracks(queue.map((item) => ({id: item[0], uuid: item[1], source: item[2]}))));
             Socket.on("removeTrack", (uuid) => {
                 this.setState({
                     queue: this.state.queue.filter((track) => track.uuid != uuid)

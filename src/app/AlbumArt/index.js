@@ -3,10 +3,10 @@ import React from "react";
 class AlbumArt extends React.Component {
 
     render() {
+        const {album, ...others} = this.props;
         var styles = {
-            background: "url(" + ((this.props.album && this.props.album.images.length > 0 && this.props.album.images[0].url) || '/images/svg/default-art.svg') + ") no-repeat center / cover"
+            background: "url(" + ((album && album.images.length > 0 && album.images[0].url) || '/images/svg/default-art.svg') + ") no-repeat center / cover"
         };
-
         if (this.props.fill) {
             styles.position = 'absolute';
             styles.top = styles.right = styles.bottom = styles.left = 0;
@@ -16,7 +16,7 @@ class AlbumArt extends React.Component {
         }
 
         return (
-            <div style={styles}/>
+            <div style={styles} {...others}/>
         )
     }
 }

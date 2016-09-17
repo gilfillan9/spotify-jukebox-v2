@@ -41,6 +41,7 @@ client.getTracks = function (uris) {
                 if ("object" === typeof track) {
                     var _track = copy(trackCache[track.id]); //Make a copy;
                     _track.uuid = track.uuid;
+                    _track.source = track.source;
                 } else {
                     var _track = copy(trackCache[track]);
                 }

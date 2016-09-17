@@ -9,6 +9,7 @@ import Socket from "../../Socket";
 
 class Playlist extends React.Component {
     state = {
+        uri: "",
         name: "",
         description: "",
         tracks: [],
@@ -26,16 +27,16 @@ class Playlist extends React.Component {
                             <h6 dangerouslySetInnerHTML={{__html: this.state.description}}></h6>
                             <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
                             <Button raised primary onClick={() => {
-                                Socket.emit("addTracks", this.state.tracks.map((track) => track.uri))
+                                Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                             }}>Add to Queue</Button>
                             &nbsp;<Button raised onClick={() => {
-                                Socket.emit("replaceTracks", this.state.tracks.map((track) => track.uri))
-                            }}>Replace Queue</Button>
+                            Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                        }}>Replace Queue</Button>
                         </div>
                     </div>
                 </div>
 
-                <TrackList tracks={this.state.tracks}/>
+                <TrackList tracks={this.state.tracks} source={this.state.uri}/>
             </Panel>
         );
     }
@@ -46,6 +47,7 @@ class Playlist extends React.Component {
 
     componentWillReceiveProps() {
         this.setState({
+            uri: "",
             name: "",
             description: "",
             tracks: [],
@@ -58,6 +60,7 @@ class Playlist extends React.Component {
         Spotify.load().then(()=> {
             Spotify.getPlaylist(this.props.params.user, this.props.params.playlist).then((result) => {
                 this.setState({
+                    uri: result.uri,
                     name: result.name,
                     description: result.description,
                     tracks: result.tracks.items.map((track) => track.track),

@@ -8,6 +8,7 @@ import {AlbumCard} from "../../Card";
 
 class Artist extends React.Component {
     state = {
+        uri: "",
         albums: [],
         singles: [],
         name: "",
@@ -29,7 +30,7 @@ class Artist extends React.Component {
                 <div className={main.header}>
                     <h5>Top Tracks</h5>
                 </div>
-                <TrackList tracks={this.state.tracks}/>
+                <TrackList tracks={this.state.tracks} source={this.state.uri}/>
 
                 {this.renderAlbumSection("Albums", this.state.albums)}
                 {this.renderAlbumSection("Singles", this.state.singles)}
@@ -41,6 +42,7 @@ class Artist extends React.Component {
         Spotify.load().then(()=> {
             Spotify.getArtist(this.props.params.artist, {market: 'GB'}).then((result) => {
                 this.setState({
+                    uri: result.uri,
                     name: result.name,
                     art: result.images.length > 0 ? result.images[0].url : ''
                 });
@@ -60,6 +62,7 @@ class Artist extends React.Component {
 
     componentWillReceiveProps() {
         this.setState({
+            uri: "",
             albums: [],
             singles: [],
             name: "",

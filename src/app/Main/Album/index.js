@@ -7,7 +7,8 @@ import {Button} from "react-toolbox/lib/button";
 import Socket from "../../Socket";
 
 class Album extends React.Component {
-    state =  {
+    state = {
+        uri: "",
         album: null,
         artists: [],
         name: "",
@@ -25,16 +26,16 @@ class Album extends React.Component {
                             <h5>{this.state.name}</h5>
                             <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
                             <Button raised primary onClick={() => {
-                                Socket.emit("addTracks", this.state.tracks.map((track) => track.uri))
+                                Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                             }}>Add to Queue</Button>
                             &nbsp;<Button raised onClick={() => {
-                                Socket.emit("replaceTracks", this.state.tracks.map((track) => track.uri))
-                            }}>Replace Queue</Button>
+                            Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                        }}>Replace Queue</Button>
                         </div>
                     </div>
                 </div>
 
-                <TrackList tracks={this.state.tracks}/>
+                <TrackList tracks={this.state.tracks} source={this.state.uri}/>
             </Panel>
         );
     }
@@ -46,6 +47,7 @@ class Album extends React.Component {
 
     componentWillReceiveProps() {
         this.setState({
+            uri: "",
             album: null,
             artists: [],
             name: "",
@@ -59,6 +61,7 @@ class Album extends React.Component {
         Spotify.load().then(()=> {
             Spotify.getAlbum(this.props.params.album).then((result) => {
                 this.setState({
+                    uri: result.uri,
                     name: result.name,
                     tracks: result.tracks.items.map((track) => {
                         track.album = result;

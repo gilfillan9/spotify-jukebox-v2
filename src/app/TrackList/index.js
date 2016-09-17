@@ -29,10 +29,14 @@ class TrackList extends React.Component {
         full: false
     };
 
+    onClickAlbum(track) {
+        Socket.emit("addTrack", track)
+    }
+
     render() {
         return (
-            <Table model={this.state.full ? TrackModelFull : TrackModel} source={this.props.tracks.map((track) => ({
-                image: (<AlbumArt album={track.album} fill/>),
+            <Table className={styles.list} model={this.state.full ? TrackModelFull : TrackModel} source={this.props.tracks.map((track) => ({
+                image: (<AlbumArt className={styles.art} album={track.album} fill onClick={this.onClickAlbum.bind(this, {track: track.uri, source: this.props.source})}/>),
                 title: track.name,
                 duration: DurationTime({
                     keepDecimals: 0,
@@ -49,7 +53,7 @@ class TrackList extends React.Component {
                 actions: (
                     <IconMenu>
                         <MenuItem caption="Add to Queue" icon="add" onClick={()=> {
-                            Socket.emit("addTrack", track.uri)
+                            Socket.emit("addTrack", {track: track.uri, source: this.props.source})
                         }}/>
                         <MenuDivider />
                         <MenuItem caption="View Artist" onClick={()=> {
