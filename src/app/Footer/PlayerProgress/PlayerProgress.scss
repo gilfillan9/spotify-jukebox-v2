@@ -22,16 +22,12 @@
     }
 
     .innerprogress {
-        background: transparent;
+        background: $palette-grey-300;
     }
 
     &:hover, &:active {
         .knob {
             opacity: 1;
-        }
-
-        .innerprogress {
-            background: $color-divider;
         }
     }
 
