@@ -14,7 +14,9 @@ a.link {
 }
 
 .list {
+    border-collapse: collapse;
     tr {
+        border-bottom: solid 1px rgba(0, 0, 0, 0.045);
         .art {
             cursor: pointer;
             &::after {
@@ -27,7 +29,7 @@ a.link {
                 transform: translate(-50%, -50%);
                 width: 38px;
                 height: 38px;
-                background: rgba(0, 0, 0, 0.5);
+                background: rgba(0, 0, 0, 0.3);
                 border-radius: 50%;
                 border: 1px solid $color-divider;
 
@@ -39,7 +41,7 @@ a.link {
                 font-weight: normal;
                 font-style: normal;
                 font-size: 30px;
-                line-height: 38px;
+                line-height: 36px;
                 letter-spacing: normal;
                 text-transform: none;
                 white-space: nowrap;
@@ -50,8 +52,14 @@ a.link {
             }
         }
 
-        &:hover .art::after {
-            opacity: 1;
+        &:hover .art {
+            &::after {
+                opacity: 1;
+            }
+
+            &:hover::after {
+                background: rgba(0, 0, 0, 0.5);
+            }
         }
     }
 }
