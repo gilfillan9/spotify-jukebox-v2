@@ -14,7 +14,7 @@ class Artist extends React.Component {
         name: "",
         tracks: [],
         art: ""
-    }
+    };
 
     render() {
         return (
@@ -86,7 +86,7 @@ class Artist extends React.Component {
                     } else {
                         albums.push(album);
                     }
-                })
+                });
                 this.setState({
                     albums: albums,
                     singles: singles

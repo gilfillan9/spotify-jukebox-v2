@@ -3,7 +3,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App.js";
 
-var app = <App />
+var app = <App />;
 
 ReactDOM.render(app, document.getElementById('app'));
 

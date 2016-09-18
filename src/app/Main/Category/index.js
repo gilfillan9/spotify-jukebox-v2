@@ -10,7 +10,7 @@ class Category extends React.Component {
         name: "",
         playlists: [],
         art: ""
-    }
+    };
 
     render() {
         const playlists = this.state.playlists.map((playlist, index) => (<PlaylistCard playlist={playlist} key={index}/>));

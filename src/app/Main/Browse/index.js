@@ -47,7 +47,7 @@ class Browse extends React.Component {
 
     componentWillMount() {
         Spotify.load().then(() => {
-            Spotify.getFeaturedPlaylists().then((result) => this.setState({playlists: result.playlists.items, message: result.message}))
+            Spotify.getFeaturedPlaylists().then((result) => this.setState({playlists: result.playlists.items, message: result.message}));
             Spotify.getCategories().then((result) => this.setState({categories: result.categories.items}))
         })
     }

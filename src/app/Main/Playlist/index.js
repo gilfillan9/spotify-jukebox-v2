@@ -14,7 +14,7 @@ class Playlist extends React.Component {
         description: "",
         tracks: [],
         art: ""
-    }
+    };
 
     render() {
         return (
@@ -24,7 +24,7 @@ class Playlist extends React.Component {
                     <div className={main.flex}>
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
-                            <h6 dangerouslySetInnerHTML={{__html: this.state.description}}></h6>
+                            <h6 dangerouslySetInnerHTML={{__html: this.state.description}}/>
                             <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
                             <Button raised primary onClick={() => {
                                 Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})

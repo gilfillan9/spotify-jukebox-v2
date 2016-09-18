@@ -6,8 +6,8 @@ const trackCache = [];
 
 var resolveFunction = null;
 const client = new Spotify();
-const getTracksOrig = client.getTracks
-const setAccessTokenOrig = client.setAccessToken
+const getTracksOrig = client.getTracks;
+const setAccessTokenOrig = client.setAccessToken;
 const loadPromise = new Promise(function (resolve) {
     resolveFunction = resolve;
 });
@@ -17,7 +17,7 @@ client.getTracks = function (uris) {
         if (uris.length == 0) resolve([]); //Don't do nought for an empty list...
         var uncachedTracks = uris.filter(function (track) {
             return "undefined" == typeof trackCache["string" === typeof track ? track : track.id]
-        })
+        });
         var tracksSplit = [];
         if (uncachedTracks.length > 0) {
             var i, chunk = 50;

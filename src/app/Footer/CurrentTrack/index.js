@@ -19,7 +19,7 @@ class CurrentTrack extends React.Component {
                             <span className={styles.artists}>{this.props.track.artists.map((artist, index) => (
                                 <a href={"/artist/" + artist.id} key={artist.id + "-" + index} onClick={linkHandler}>{artist.name}</a>
                             ))}</span>
-                            <span className={styles.seperator}>-</span>
+                            <span className={styles.separator}>-</span>
                             <a className={styles.album} href={"/album/" + this.props.track.album.id} onClick={linkHandler}>{this.props.track.album.name}</a>
                         </div>
                     </div>

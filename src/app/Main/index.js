@@ -26,7 +26,7 @@ class Main extends React.Component {
         );
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate() {
         return false;
     }
 }

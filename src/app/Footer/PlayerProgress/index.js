@@ -10,7 +10,7 @@ class PlayerProgress extends React.Component {
         progress: styles.progress,
         innerprogress: styles.innerprogress,
         knob: styles.knob
-    }
+    };
 
     seek = eventPassthrough(this, 'onSeek');
 

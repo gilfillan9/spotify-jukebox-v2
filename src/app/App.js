@@ -21,7 +21,7 @@ class App extends React.Component {
         queueRaw: [],
         connected: true,
         settings: false
-    }
+    };
 
     constructor(props) {
         super(props);
@@ -48,7 +48,7 @@ class App extends React.Component {
             progress: progress
         });
         Socket.emit("seek", progress)
-    }
+    };
 
 
     componentWillMount() {
@@ -101,7 +101,7 @@ class App extends React.Component {
 
     onReorder(order) {
         var tracks = {};
-        this.state.queue.forEach((track) => tracks[track.uuid] = track)
+        this.state.queue.forEach((track) => tracks[track.uuid] = track);
         var queue = order.map((uuid) => tracks[uuid]);
         this.setState({
             queue: queue
@@ -134,7 +134,7 @@ class App extends React.Component {
         return (
             <div>
                 <Header onSettingsOpen={this.onSettingsOpen.bind(this)} />
-                <Main></Main>
+                <Main />
                 <PlayQueue queue={this.state.queue}
                            onRemoveTrack={this.onRemoveTrack.bind(this)}
                            onReorder={this.onReorder.bind(this)}/>

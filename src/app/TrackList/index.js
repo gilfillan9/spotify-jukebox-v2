@@ -56,7 +56,7 @@ class TrackList extends React.Component {
 
     componentWillMount() {
         this.boundFn = this.onResize.bind(this);
-        window.addEventListener("resize", this.boundFn, false)
+        window.addEventListener("resize", this.boundFn, false);
         this.onResize();
     }
 

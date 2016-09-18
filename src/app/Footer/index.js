@@ -7,7 +7,7 @@ import CurrentTrack from "./CurrentTrack";
 import {eventPassthrough} from "../helpers";
 
 class Footer extends React.Component {
-    onPlayStateChange = eventPassthrough(this, 'onPlayStateChange')
+    onPlayStateChange = eventPassthrough(this, 'onPlayStateChange');
     onSeek = eventPassthrough(this, 'onSeek');
     onSkip = eventPassthrough(this, 'onSkip');
     onVolumeChange = eventPassthrough(this, 'onVolumeChange');

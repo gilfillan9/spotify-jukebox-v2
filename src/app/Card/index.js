@@ -7,7 +7,7 @@ import {Link} from "react-router";
 class CardArt extends React.Component {
     state = {
         wide: false
-    }
+    };
 
     render() {
         return (<CardMedia image={this.props.image} aspectRatio={this.state.wide ? "wide" : "square"}/>);
@@ -17,14 +17,14 @@ class CardArt extends React.Component {
         this.setState({
             wide: window.innerHeight < 600 || window.innerWidth < 600
         })
-    }
+    };
 
     shouldComponentUpdate(nextProps, nextState) {
         return this.state.wide != nextState.wide;
     }
 
     componentWillMount() {
-        window.addEventListener('resize', this.resize, false)
+        window.addEventListener('resize', this.resize, false);
 
         this.resize();
     }
