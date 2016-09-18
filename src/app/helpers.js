@@ -37,13 +37,13 @@ export function arrayEquals(a, b) {
 }
 
 export function linkHandler(path) {
-    if (arguments.length === 3) {
-        path.preventDefault();
-        browserHistory.push(path.target.pathname + path.target.search + path.target.hash);
-    } else {
+    if (arguments.length === 1) {
         return (e) => {
             e.preventDefault();
             browserHistory.push(path);
         };
+    } else {
+        path.preventDefault();
+        browserHistory.push(path.target.pathname + path.target.search + path.target.hash);
     }
 }
