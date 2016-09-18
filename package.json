@@ -55,7 +55,9 @@
     "webpack-hot-middleware": "~2.12.2"
   },
   "scripts": {
-    "build": "set NODE_ENV=production; webpack --config webpack.config",
+    "build": "cross-env NODE_ENV=production webpack --config webpack.config",
+    "startServer": "cross-env NODE_ENV=dev PART=server node server",
+    "startWebpack": "cross-env NODE_ENV=dev PART=webpack node server",
     "start": "node server"
   },
   "license": "MIT",
