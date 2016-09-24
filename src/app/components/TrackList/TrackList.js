@@ -1,8 +1,8 @@
 import React from "react";
 import Table from "react-toolbox/lib/table/";
 import {Link} from "react-router";
-import styles from "./TrackList.scss";
 import DurationTime from "duration-time-format";
+import styles from "./TrackList.scss";
 import AlbumArt from "../AlbumArt";
 import Socket from "../../libs/Socket";
 import TrackActionMenu from "../TrackActionMenu";
@@ -32,6 +32,7 @@ class TrackList extends React.Component {
         Socket.emit("addTrack", track)
     }
 
+
     render() {
         return (
             <Table className={styles.list} model={this.state.full ? TrackModelFull : TrackModel} source={this.props.tracks.map((track) => ({
@@ -55,20 +56,24 @@ class TrackList extends React.Component {
     }
 
     componentWillMount() {
-        this.boundFn = this.onResize.bind(this);
-        window.addEventListener("resize", this.boundFn, false);
+        this.boundResize = this.onResize.bind(this);
+        window.addEventListener("resize", this.boundResize, false);
         this.onResize();
     }
 
     componentWillUnmount() {
-        window.removeEventListener("resize", this.boundFn)
+        window.removeEventListener("resize", this.boundResize)
     }
 
 
     onResize() {
-        this.setState({
-            full: window.innerWidth > 1200
-        })
+        const full = window.innerWidth > 1200;
+
+        if (this.state.full != full) {
+            this.setState({
+                full: full
+            })
+        }
     }
 }
 
