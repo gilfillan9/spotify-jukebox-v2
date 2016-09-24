@@ -23,12 +23,6 @@ class App extends React.Component {
         settings: false
     };
 
-    constructor(props) {
-        super(props);
-
-        //TODO create io.js connection
-    }
-
     onPlayStateChange(playSate) {
         this.setState({
             playState: playSate
