@@ -59,7 +59,7 @@ class Album extends React.Component {
 
     load() {
         Spotify.load().then(()=> {
-            Spotify.getAlbum(this.props.params.album).then((result) => {
+            Spotify.getAlbum(this.props.params.album, {market: "GB"}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
@@ -81,7 +81,8 @@ class Album extends React.Component {
     loadMoreTracks() {
         Spotify.load().then(()=> {
             Spotify.getAlbumTracks(this.props.params.album, {
-                offset: this.state.tracks.length
+                offset: this.state.tracks,
+                market: "GB"
             }).then((result) => {
                 if (result.total > result.items.length + this.state.tracks.length) {
                     this.loadMoreTracks();

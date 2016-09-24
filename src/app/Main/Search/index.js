@@ -94,7 +94,7 @@ class Search extends React.Component {
 
     load(query) {
         Spotify.load().then(()=> {
-            Spotify.search(query, ["album", "artist", "playlist", "track"]).then((results) => {
+            Spotify.search(query, ["album", "artist", "playlist", "track"], {market: "GB"}).then((results) => {
                 if (this.props.location.query.query != query) return;
                 this.setState({
                     tracks: results.tracks.items,

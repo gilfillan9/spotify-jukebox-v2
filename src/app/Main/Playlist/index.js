@@ -58,7 +58,7 @@ class Playlist extends React.Component {
 
     load() {
         Spotify.load().then(()=> {
-            Spotify.getPlaylist(this.props.params.user, this.props.params.playlist).then((result) => {
+            Spotify.getPlaylist(this.props.params.user, this.props.params.playlist, {market: "GB"}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
@@ -66,7 +66,6 @@ class Playlist extends React.Component {
                     tracks: result.tracks.items.map((track) => track.track),
                     art: result.images.length > 0 ? result.images[0].url : ''
                 });
-                window.tracks = result.tracks.items.map((track) => track.track);
 
                 if (result.tracks.total > result.tracks.items.length) {
                     this.loadMoreTracks();
@@ -78,7 +77,8 @@ class Playlist extends React.Component {
     loadMoreTracks() {
         Spotify.load().then(()=> {
             Spotify.getPlaylistTracks(this.props.params.user, this.props.params.playlist, {
-                offset: this.state.tracks.length
+                offset: this.state.tracks.length,
+                market: "GB"
             }).then((result) => {
                 if (result.total > result.items.length + this.state.tracks.length) {
                     this.loadMoreTracks();

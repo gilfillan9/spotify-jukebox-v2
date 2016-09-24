@@ -29,7 +29,7 @@ client.getTracks = function (uris) {
             }
         }
         async.each(tracksSplit, function (item, cb) {
-            getTracksOrig(item).then(function (result) {
+            getTracksOrig(item, {market: "GB"}).then(function (result) {
                 result.tracks.forEach(function (track) {
                     if (track == null) return;
                     trackCache[track.id] = track;

@@ -52,7 +52,7 @@ class Category extends React.Component {
 
     load() {
         Spotify.load().then(()=> {
-            Spotify.getCategory(this.props.params.category).then((result) => {
+            Spotify.getCategory(this.props.params.category, {country: "GB"}).then((result) => {
                 this.setState({
                     name: result.name,
                     art: result.icons.length > 0 ? result.icons[0].url : ''
@@ -65,7 +65,8 @@ class Category extends React.Component {
     loadMorePlaylists() {
         Spotify.load().then(()=> {
             Spotify.getCategoryPlaylists(this.props.params.category, {
-                offset: this.state.playlists.length
+                offset: this.state.playlists.length,
+                country: "GB"
             }).then((result) => {
                 if (result.playlists.total > result.playlists.items.length + this.state.playlists.length) {
                     this.loadMorePlaylists();
