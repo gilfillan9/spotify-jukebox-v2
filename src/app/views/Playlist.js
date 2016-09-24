@@ -5,6 +5,7 @@ import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {Button} from "react-toolbox/lib/button";
 import Socket from "../libs/Socket";
+import DurationTime from "duration-time-format";
 
 
 class Playlist extends React.Component {
@@ -17,6 +18,7 @@ class Playlist extends React.Component {
     };
 
     render() {
+
         return (
             <Panel className={main['page-raised']}>
                 <div className={main['flex-container']}>
@@ -25,7 +27,9 @@ class Playlist extends React.Component {
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
                             <h6 dangerouslySetInnerHTML={{__html: this.state.description}}/>
-                            <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
+                            <p>{this.state.tracks.length + " Tracks"}&nbsp; &bull; &nbsp;{DurationTime({
+                                keepDecimals: 0,
+                            }).format(this.state.tracks.map((track) => track.duration_ms / 1000).reduce((prev, next) => (prev + next), 0))}</p>
                             <Button raised primary onClick={() => {
                                 Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                             }}>Add to Queue</Button>
