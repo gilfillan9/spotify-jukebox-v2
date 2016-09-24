@@ -5,24 +5,21 @@
     bottom: $footer-height;
     width: $play-queue-width;
     transform: translateX(100%);
+    transition: width 500ms $animation-curve-default;
+    box-shadow: -5px 0 10px -5px rgba(0, 0, 0, .16), -5px 0 10px -5px rgba(0, 0, 0, .23);
+    z-index: $z-index-higher + 1;
+    background: white;
+    overflow: hidden;
+
     @media (min-width: $play-queue-show-width) {
         transform: none;
     }
     @media (min-width: $play-queue-width-large-size) {
         width: $play-queue-width-large;
     }
-
-    box-shadow: -5px 0 10px -5px rgba(0, 0, 0, .16), -5px 0 10px -5px rgba(0, 0, 0, .23);
-
-    z-index: $z-index-higher + 1;
-
-    background: white;
-
-    overflow: hidden;
-
     .tracks {
         position: absolute;
-        top: 112px;
+        top: 128px;
         right: 0;
         bottom: 0;
         left: 0;
@@ -30,13 +27,41 @@
         overflow-x: hidden;
     }
 
-    .current, .currentScrolled {
+    .current {
         margin: 0;
         padding: 0;
-        box-shadow: 0;
+        box-shadow: none;
         transition: box-shadow $animation-duration $animation-curve-default;
+        z-index: 2;
+        overflow: hidden;
+
+        &.scrolled {
+            box-shadow: $zdepth-shadow-1;
+        }
+
+        hr {
+            margin: 0;
+        }
+
+        .button {
+            [data-react-toolbox="font-icon"] {
+                margin: auto;
+                width: 100%;
+            }
+
+        }
     }
-    .currentScrolled {
-        box-shadow: $zdepth-shadow-1;
+
+    &.open {
+        width: $play-queue-open-width;
+
+        @media (min-width: $play-queue-width-large-size) {
+            width: $play-queue-open-width-large;
+        }
     }
+
+}
+
+.divider {
+    margin: 0;
 }

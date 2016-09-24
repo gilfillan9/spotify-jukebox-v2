@@ -1,10 +1,10 @@
 import React from "react";
 import styles from "./PlayQueue.scss";
 import QueueItem from "./QueueItem";
-import {List, ListSubHeader, ListDivider} from "react-toolbox/lib/list";
+import {List, ListDivider, ListItem} from "react-toolbox/lib/list";
+import {Button} from "react-toolbox/lib/button";
 import Sortable from "react-sortablejs";
 import {eventPassthrough, arrayEquals} from "../../libs/helpers";
-
 
 class PlayQueue extends React.Component {
     onRemove = eventPassthrough(this, 'onRemoveTrack');
@@ -14,7 +14,8 @@ class PlayQueue extends React.Component {
     });
 
     state = {
-        scrolled: false
+        scrolled: false,
+        open: false
     };
 
     onScroll() {
@@ -31,25 +32,34 @@ class PlayQueue extends React.Component {
     }
 
     render() {
+        const listStyles = [styles.current];
+        if (this.state.scrolled) {
+            listStyles.push(styles.scrolled);
+        }
+
+        const playQueueStyles = [styles['play-queue']];
+        if (this.state.open) {
+            playQueueStyles.push(styles.open);
+        }
+        const title = (<ListItem caption='Play queue' leftActions={[(<Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>)]}/>);
+
         if (this.props.queue.length > 0) {
             const items = this.props.queue.map((track, index) => index == 0 ? undefined : (
-                <QueueItem track={track} key={track.uuid} data-id={track.uuid} onRemove={this.onRemove} selected={false}/>
+                <QueueItem track={track} key={track.uuid} data-id={track.uuid} onRemove={this.onRemove} selected={false} large={this.state.open}/>
             ));
 
             const currentItem = (<QueueItem track={this.props.queue[0]} onRemove={this.onRemove} selected/>);
 
             return (
-                <div className={styles['play-queue']}>
-                    <List className={this.state.scrolled ? styles.currentScrolled : styles.current}>
-                        <ListSubHeader caption='Play queue'/>
+                <div className={playQueueStyles.join(" ")}>
+                    <List className={listStyles.join(" ")}>
+                        {title}
                         {currentItem}
                         <ListDivider />
                     </List>
                     <div className={styles.tracks} onScroll={this.onScroll.bind(this)} ref={(el) => this._list = el}>
                         <List>
-                            <Sortable
-                                onChange={this.onReorder}
-                            >
+                            <Sortable onChange={this.onReorder}>
                                 {items}
                             </Sortable>
                         </List>
@@ -58,15 +68,17 @@ class PlayQueue extends React.Component {
             );
         } else {
             return (
-                <div className={styles['play-queue']}>
-                    <ListSubHeader caption='Play queue'/>
+                <div className={playQueueStyles.join(" ")}>
+                    <List className={listStyles.join(" ")}>
+                        {title}
+                    </List>
                 </div>
             )
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState.scrolled != this.state.scrolled || !arrayEquals(this.props.queue, nextProps.queue);
+        return nextState != this.state || !arrayEquals(this.props.queue, nextProps.queue);
     }
 }
 

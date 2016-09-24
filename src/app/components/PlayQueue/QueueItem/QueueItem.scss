@@ -5,15 +5,79 @@
 }
 
 .item {
-    max-width: $play-queue-width;
-    &:hover {
-        .button {
-            opacity: 1;
+    .item {
+        max-width: $play-queue-width;
+        transition: max-width 500ms $animation-curve-default;
+        &:hover {
+            .button {
+                opacity: 1;
+            }
         }
+
+        @media (min-width: $play-queue-width-large-size) {
+            max-width: $play-queue-width-large;
+        }
+        .content-wrap {
+            width: 100%;
+            .itemText {
+                display: block;
+                padding-top: .3 * $unit;
+                font-size: $font-size-small;
+                color: $color-text-secondary;
+                width: $play-queue-width - 144px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                transition: width 500ms $animation-curve-default;
+
+                &.primary {
+                    font-size: $font-size-normal;
+                    color: $color-text;
+                }
+
+                @media (min-width: $play-queue-width-large-size) {
+                    width: $play-queue-width-large - 144px;
+                }
+            }
+
+            .artists a {
+                margin-right: 4px;
+                color: $color-text-secondary;
+
+                &::after {
+                    content: ',';
+                    display: inline;
+                }
+
+                &:last-of-type {
+                    margin-right: 0;
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+
     }
 
-    @media (min-width: $play-queue-width-large-size) {
-        max-width: $play-queue-width-large;
+    &.large {
+        .item {
+            max-width: $play-queue-open-width;
+
+            @media (min-width: $play-queue-width-large-size) {
+                max-width: $play-queue-open-width-large;
+            }
+
+            .content-wrap {
+                .itemText {
+                    width: $play-queue-open-width - 144px;
+
+                    @media (min-width: $play-queue-width-large-size) {
+                        width: $play-queue-open-width-large  - 144px;
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -21,13 +85,3 @@
     background: red !important;
 }
 
-.itemContentRoot span {
-    width: $play-queue-width - 144px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    @media (min-width: $play-queue-width-large-size) {
-        width: $play-queue-width-large - 144px;
-    }
-}
