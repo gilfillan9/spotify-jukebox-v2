@@ -1,11 +1,12 @@
 import React from "react";
-import Header from "./Header";
-import Main from "./Main";
-import Footer from "./Footer";
-import PlayQueue from "./PlayQueue";
-import Socket from "./Socket";
-import Spotify from "./Spotify";
-import Settings from "./Settings";
+import Header from "./components/Header";
+import View from "./views";
+import Footer from "./components/Footer";
+import PlayQueue from "./components/PlayQueue";
+import Socket from "./libs/Socket";
+import Spotify from "./libs/Spotify";
+import Settings from "./components/Settings";
+
 
 class App extends React.Component {
 
@@ -52,16 +53,13 @@ class App extends React.Component {
             Socket.on("token", (token) => Spotify.setAccessToken(token));
             Socket.on("seek", (seek) => this.setState({progress: seek}));
             Socket.on("queue", (queue) => this.loadTracks(queue.map((item) => ({id: item[0], uuid: item[1], source: item[2]}))));
-            Socket.on("removeTrack", (uuid) => {
-                this.setState({
-                    queue: this.state.queue.filter((track) => track.uuid != uuid)
-                });
-            });
+            Socket.on("removeTrack", (uuid) => this.setState({queue: this.state.queue.filter((track) => track.uuid != uuid)}));
         } else {
             //Shit's broken
             this.setState({
                 connected: false
             });
+            alert("Couldn't load the socket, please try again");
         }
     }
 
@@ -127,8 +125,8 @@ class App extends React.Component {
 
         return (
             <div>
-                <Header onSettingsOpen={this.onSettingsOpen.bind(this)} />
-                <Main />
+                <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
+                <View />
                 <PlayQueue queue={this.state.queue}
                            onRemoveTrack={this.onRemoveTrack.bind(this)}
                            onReorder={this.onReorder.bind(this)}/>

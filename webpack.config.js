@@ -8,8 +8,7 @@ module.exports = {
     devtool: 'inline-source-map',
     watch: process.env.NODE_ENV != 'production',
     entry: [
-        path.join(__dirname, './src/app/client.js'),
-        path.join(__dirname, './src/app/theme/base.scss')
+        path.join(__dirname, './src/app/index.js')
     ],
     output: {
         path: path.join(__dirname, 'build'),

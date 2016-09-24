@@ -1,3 +1,5 @@
+@import "~react-toolbox/lib/commons";
+
 a:hover {
     text-decoration: underline;
 }
@@ -5,7 +7,6 @@ a:hover {
 [class*='sortable-ghost'] {
     background: #eeeeee;
 }
-
 
 body, html {
     overflow: hidden;
