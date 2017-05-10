@@ -28,25 +28,19 @@ class Api {
 
         return new Promise((resolve, reject) => {
             req.then((response) => {
-                if (response.ok) {
-                    response.json().then((data) => {
-                        if (data.success) {
-                            resolve(data.data);
-                        } else {
-                            let e = new Error(data.message);
-                            e.response = response;
-                            reject(e);
-                        }
-                    }).catch(() => {
-                        let e = new Error('Malformed response');
+                response.json().then((data) => {
+                    if (response.ok && data.success) {
+                        resolve(data.data);
+                    } else {
+                        let e = new Error(data.message);
                         e.response = response;
                         reject(e);
-                    })
-                } else {
-                    let e = new Error(response.statusText);
+                    }
+                }).catch(() => {
+                    let e = new Error('Malformed response');
                     e.response = response;
                     reject(e);
-                }
+                })
             }).catch((e) => {
                 reject(new Error(e));
             })
