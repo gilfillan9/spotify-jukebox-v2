@@ -7,7 +7,6 @@ import Socket from "./libs/Socket";
 import Spotify from "./libs/Spotify";
 import Settings from "./components/Settings";
 
-
 class App extends React.Component {
 
     state = {
@@ -126,7 +125,7 @@ class App extends React.Component {
         return (
             <div>
                 <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
-                <View />
+                <View/>
                 <PlayQueue queue={this.state.queue}
                            onRemoveTrack={this.onRemoveTrack.bind(this)}
                            onReorder={this.onReorder.bind(this)}/>

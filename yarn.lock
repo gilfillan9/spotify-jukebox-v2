@@ -4451,10 +4451,6 @@ socket.io-parser@2.3.1:
     isarray "0.0.1"
     json3 "3.3.2"
 
-socket.io-reqres@0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/socket.io-reqres/-/socket.io-reqres-0.0.9.tgz#2f580f9a8335f329fc44a58c3f98246f04b6c6dd"
-
 socket.io@^1.4.8:
   version "1.7.4"
   resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-1.7.4.tgz#2f7ecedc3391bf2d5c73e291fe233e6e34d4dd00"
