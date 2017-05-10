@@ -37,6 +37,10 @@ class Api {
                             e.response = response;
                             reject(e);
                         }
+                    }).catch(() => {
+                        let e = new Error('Malformed response');
+                        e.response = response;
+                        reject(e);
                     })
                 } else {
                     let e = new Error(response.statusText);
