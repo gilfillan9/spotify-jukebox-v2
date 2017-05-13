@@ -8,7 +8,11 @@ export default class Current extends React.Component {
         const queue = this.props.queue;
         if (queue.length === 0) {
             return (
-                <div>None</div>
+                <div className={styles['current-page']}>
+                    <div className={styles['content-wrap']}>
+                        <img src='/images/svg/default-art.svg' style={{width: "50vmin"}}/>
+                    </div>
+                </div>
             );
         } else {
             const currentTrack = queue[0];
