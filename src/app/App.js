@@ -127,7 +127,7 @@ class App extends React.Component {
             <BrowserRouter>
                 <div>
                     <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
-                    <View/>
+                    <View queue={this.state.queue}/>
                     <PlayQueue queue={this.state.queue}
                                onRemoveTrack={this.onRemoveTrack.bind(this)}
                                onReorder={this.onReorder.bind(this)}/>

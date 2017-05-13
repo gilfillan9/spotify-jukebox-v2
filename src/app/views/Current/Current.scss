@@ -1,0 +1,41 @@
+.current-page {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .title {
+            text-align: center;
+            display: block;
+            font-weight: 700;
+            font-size: 22px;
+            margin: 20px 0 8px;
+        }
+
+        .artists {
+            text-align: center;
+            a {
+                margin-right: 4px;
+                color: $color-text-secondary;
+
+                &::after {
+                    content: ',';
+                    display: inline;
+                }
+
+                &:last-of-type {
+                    margin-right: 0;
+                    &::after {
+                        display: none;
+                    }
+                }
+            }
+        }
+    }
+}
