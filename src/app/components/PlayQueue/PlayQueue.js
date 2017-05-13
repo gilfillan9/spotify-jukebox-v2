@@ -53,7 +53,7 @@ class PlayQueue extends React.Component {
                 <QueueItem track={track} key={track.uuid} data-id={track.uuid} onRemove={this.onRemove} selected={false} large={this.state.open}/>
             ));
 
-            const currentItem = (<QueueItem track={this.props.queue[0]} onRemove={this.onRemove} selected/>);
+            const currentItem = (<QueueItem track={this.props.queue[0]} onRemove={this.onRemove} selected large={this.state.open}/>);
 
             return (
                 <div className={playQueueStyles.join(" ")}>
