@@ -41,7 +41,12 @@ class PlayQueue extends React.Component {
         if (this.state.open) {
             playQueueStyles.push(styles.open);
         }
-        const title = (<ListItem caption='Play queue' leftActions={[(<Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>)]}/>);
+        const title = (
+            <ListItem caption='Play queue' ripple={false}
+                      leftActions={[(
+                          <Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>
+                      )]}/>
+        );
 
         if (this.props.queue.length > 0) {
             const items = this.props.queue.map((track, index) => index == 0 ? undefined : (
