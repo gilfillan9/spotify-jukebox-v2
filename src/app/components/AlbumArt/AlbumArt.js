@@ -1,24 +1,18 @@
-import React from "react";
+import React from 'react';
 
-class AlbumArt extends React.Component {
-
-    render() {
-        const {album, ...others} = this.props;
-        var styles = {
-            background: "url(" + ((album && album.images.length > 0 && album.images[0].url) || '/images/svg/default-art.svg') + ") no-repeat center / cover"
-        };
-        if (this.props.fill) {
-            styles.position = 'absolute';
-            styles.top = styles.right = styles.bottom = styles.left = 0;
-        } else {
-            styles.width = this.props.width || this.props.height;
-            styles.height = this.props.height || this.props.width;
-        }
-
-        return (
-            <div style={styles} {...others}/>
-        )
+export default ({album, width, height, fill, ...others}) => {
+    var styles = {
+        background: "url(" + ((album && album.images.length > 0 && album.images[0].url) || '/images/svg/default-art.svg') + ") no-repeat center / cover"
+    };
+    if (fill) {
+        styles.position = 'absolute';
+        styles.top = styles.right = styles.bottom = styles.left = 0;
+    } else {
+        styles.width = width || height;
+        styles.height = height || width;
     }
-}
 
-export default AlbumArt;
+    return (
+        <div style={styles} {...others}/>
+    )
+};
