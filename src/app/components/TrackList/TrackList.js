@@ -1,17 +1,22 @@
 import React from "react";
 import Table from "react-toolbox/lib/table/";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
 import DurationTime from "duration-time-format";
 import styles from "./TrackList.scss";
 import AlbumArt from "../AlbumArt";
 import Socket from "../../libs/Socket";
 import TrackActionMenu from "../TrackActionMenu";
+import moment from "moment";
 
 const TrackModel = {
     title: {},
     duration: {},
-    actions: {title: " "}
+    actions: {title: " "},
 };
+const TrackModelDate = Object.assign({}, TrackModel, {
+    added_at: {title: "Added"}
+});
+
 
 const TrackModelFull = {
     image: {title: " "},
@@ -21,6 +26,9 @@ const TrackModelFull = {
     artist: {},
     album: {},
 };
+const TrackModelDateFull = Object.assign({}, TrackModelFull, {
+    added_at: {title: "Added"}
+});
 
 class TrackList extends React.Component {
 
@@ -35,7 +43,7 @@ class TrackList extends React.Component {
 
     render() {
         return (
-            <Table className={styles.list} model={this.state.full ? TrackModelFull : TrackModel} source={this.props.tracks.map((track) => ({
+            <Table className={styles.list} model={this.state.full ? (this.props.includeDateAdded ? TrackModelDateFull : TrackModelFull) : (this.props.includeDateAdded ? TrackModelDate : TrackModel)} source={this.props.tracks.map((track) => ({
                 image: (<AlbumArt className={styles.art} album={track.album} fill onClick={this.onClickAlbum.bind(this, {track: track.uri, source: this.props.source})}/>),
                 title: track.name,
                 duration: DurationTime({
@@ -50,7 +58,8 @@ class TrackList extends React.Component {
                 album: (
                     <Link to={"/album/" + track.album.id} className={styles['link']}>{track.album.name}</Link>
                 ),
-                actions: (<TrackActionMenu track={track}/>)
+                actions: (<TrackActionMenu track={track}/>),
+                added_at: moment(track.added_at).fromNow()
             }))} selectable={false}/>
         )
     }

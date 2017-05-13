@@ -45,7 +45,7 @@ class Playlist extends React.Component {
                     </div>
                 </div>
 
-                <TrackList tracks={this.state.tracks} source={this.state.uri}/>
+                <TrackList tracks={this.state.tracks} source={this.state.uri} includeDateAdded/>
             </Panel>
         );
     }
