@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./CurrentTrack.scss";
 import AlbumArt from "../../AlbumArt";
-import {linkHandler} from "../../../libs/helpers";
+import {Link} from "react-router-dom";
 
 class CurrentTrack extends React.Component {
 
@@ -9,27 +9,27 @@ class CurrentTrack extends React.Component {
         if (this.props.track) {
             return (
                 <div className={styles['current-track']}>
-                    <a href="/current" onClick={linkHandler("/current")}>
+                    <Link to="/current">
                         <AlbumArt album={this.props.track.album} width={90}/>
-                    </a>
+                    </Link>
 
                     <div className={styles['info-wrap']}>
                         <span className={styles.title}>{this.props.track.name}</span>
                         <div className={styles['details-wrap']}>
                             <span className={styles.artists}>{this.props.track.artists.map((artist, index) => (
-                                <a href={"/artist/" + artist.id} key={artist.id + "-" + index} onClick={linkHandler}>{artist.name}</a>
+                                <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
                             ))}</span>
                             <span className={styles.separator}>-</span>
-                            <a className={styles.album} href={"/album/" + this.props.track.album.id} onClick={linkHandler}>{this.props.track.album.name}</a>
+                            <Link className={styles.album} to={"/album/" + this.props.track.album.id}>{this.props.track.album.name}</Link>
                         </div>
                     </div>
                 </div>
             )
         } else {
             return (<div className={styles['current-track']}>
-                <a href="/current" onClick={linkHandler("/current")}>
+                <Link to="/current">
                     <AlbumArt width={90}/>
-                </a>
+                </Link>
             </div>);
         }
     }

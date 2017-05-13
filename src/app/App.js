@@ -6,6 +6,7 @@ import PlayQueue from "./components/PlayQueue";
 import Socket from "./libs/Socket";
 import Spotify from "./libs/Spotify";
 import Settings from "./components/Settings";
+import {BrowserRouter} from "react-router-dom";
 
 class App extends React.Component {
 
@@ -123,24 +124,26 @@ class App extends React.Component {
     render() {
 
         return (
-            <div>
-                <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
-                <View/>
-                <PlayQueue queue={this.state.queue}
-                           onRemoveTrack={this.onRemoveTrack.bind(this)}
-                           onReorder={this.onReorder.bind(this)}/>
-                <Footer currentTrack={this.state.queue[0]}
-                        progress={this.state.progress}
-                        volume={this.state.volume}
-                        playState={this.state.playState}
-                        onPlayStateChange={this.onPlayStateChange.bind(this)}
-                        onVolumeChange={this.onVolumeChange.bind(this)}
-                        onSeek={this.onSeek.bind(this)}
-                        onSkip={this.onSkip.bind(this)}
-                />
-                <Settings active={this.state.settings}
-                          onClose={this.onSettingsClose.bind(this)}/>
-            </div>
+            <BrowserRouter>
+                <div>
+                    <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
+                    <View/>
+                    <PlayQueue queue={this.state.queue}
+                               onRemoveTrack={this.onRemoveTrack.bind(this)}
+                               onReorder={this.onReorder.bind(this)}/>
+                    <Footer currentTrack={this.state.queue[0]}
+                            progress={this.state.progress}
+                            volume={this.state.volume}
+                            playState={this.state.playState}
+                            onPlayStateChange={this.onPlayStateChange.bind(this)}
+                            onVolumeChange={this.onVolumeChange.bind(this)}
+                            onSeek={this.onSeek.bind(this)}
+                            onSkip={this.onSkip.bind(this)}
+                    />
+                    <Settings active={this.state.settings}
+                              onClose={this.onSettingsClose.bind(this)}/>
+                </div>
+            </BrowserRouter>
         );
     }
 }

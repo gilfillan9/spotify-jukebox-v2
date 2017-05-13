@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Search.scss";
 import FontIcon from "react-toolbox/lib/font_icon";
 import debounce from "debounce";
-import {browserHistory} from "react-router";
+import {withRouter} from "react-router-dom";
 
 class Search extends React.Component {
 
@@ -18,7 +18,7 @@ class Search extends React.Component {
                 query: this._input.value
             });
 
-            browserHistory.push("/search?query=" + encodeURIComponent(this._input.value));
+            this.props.history.push("/search?query=" + encodeURIComponent(this._input.value));
         }
     }
 
@@ -39,8 +39,6 @@ class Search extends React.Component {
             </div>
         );
     }
-
-
 }
 
-export default Search;
+export default withRouter(Search);

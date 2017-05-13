@@ -1,7 +1,7 @@
 import React from "react";
 import {Card, CardMedia, CardTitle} from "react-toolbox/lib/card";
 import styles from "./Card.scss";
-import {Link} from "react-router";
+import {Link} from "react-router-dom";
 
 
 class CardArt extends React.Component {

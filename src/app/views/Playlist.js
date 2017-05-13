@@ -2,6 +2,7 @@ import React from "react";
 import main from "./Main.scss";
 import {Panel} from "react-toolbox/lib/layout";
 import Spotify from "../libs/Spotify";
+import {objCompare} from "../libs/helpers";
 import TrackList from "../components/TrackList";
 import {Button} from "react-toolbox/lib/button";
 import Socket from "../libs/Socket";
@@ -17,8 +18,12 @@ class Playlist extends React.Component {
         art: ""
     };
 
-    render() {
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.match.params.user !== nextProps.match.params.user || this.props.match.params.playlist !== nextProps.match.params.playlist || !objCompare(nextState, this.state);
+    }
+
+    render() {
         return (
             <Panel className={main['page-raised']}>
                 <div className={main['flex-container']}>
@@ -49,25 +54,27 @@ class Playlist extends React.Component {
         this.load();
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            uri: "",
-            name: "",
-            description: "",
-            tracks: [],
-            art: ""
-        });
-        this.load();
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.user !== nextProps.match.params.user || this.props.match.params.playlist !== nextProps.match.params.playlist) {
+            this.setState({
+                uri: "",
+                name: "",
+                description: "",
+                tracks: [],
+                art: ""
+            });
+            this.load();
+        }
     }
 
     load() {
-        Spotify.load().then(()=> {
-            Spotify.getPlaylist(this.props.params.user, this.props.params.playlist, {market: "GB"}).then((result) => {
+        Spotify.load().then(() => {
+            Spotify.getPlaylist(this.props.match.params.user, this.props.match.params.playlist, {market: "GB"}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
                     description: result.description,
-                    tracks: result.tracks.items.map((track) => track.track),
+                    tracks: result.tracks.items.map((track) => Object.assign(track.track, {added_at: track.added_at})),
                     art: result.images.length > 0 ? result.images[0].url : ''
                 });
 
@@ -79,18 +86,18 @@ class Playlist extends React.Component {
     }
 
     loadMoreTracks() {
-        Spotify.load().then(()=> {
-            Spotify.getPlaylistTracks(this.props.params.user, this.props.params.playlist, {
+        Spotify.load().then(() => {
+            Spotify.getPlaylistTracks(this.props.match.params.user, this.props.match.params.playlist, {
                 offset: this.state.tracks.length,
                 market: "GB"
             }).then((result) => {
-                if (result.total > result.items.length + this.state.tracks.length) {
-                    this.loadMoreTracks();
-                }
                 this.setState({
-                    tracks: this.state.tracks.concat(result.items.map((track) => track.track))
+                    tracks: this.state.tracks.concat(result.items.map((track) => Object.assign(track.track, {added_at: track.added_at})))
+                }, () => {
+                    if (result.total > this.state.tracks.length) {
+                        this.loadMoreTracks();
+                    }
                 });
-
             })
         })
     }

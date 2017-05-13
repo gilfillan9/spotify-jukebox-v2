@@ -3,6 +3,7 @@ import main from "./Main.scss";
 import {Panel} from "react-toolbox/lib/layout";
 import Spotify from "../libs/Spotify";
 import {PlaylistCard} from "../components/Card";
+import {objCompare} from "../libs/helpers";
 
 
 class Category extends React.Component {
@@ -11,6 +12,10 @@ class Category extends React.Component {
         playlists: [],
         art: ""
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.match.params.category !== nextProps.match.params.category || !objCompare(nextState, this.state);
+    }
 
     render() {
         const playlists = this.state.playlists.map((playlist, index) => (<PlaylistCard playlist={playlist} key={index}/>));
@@ -41,18 +46,20 @@ class Category extends React.Component {
         this.load();
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            name: "",
-            playlists: [],
-            art: ""
-        });
-        this.load();
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.category !== nextProps.match.params.category) {
+            this.setState({
+                name: "",
+                playlists: [],
+                art: ""
+            });
+            this.load();
+        }
     }
 
     load() {
         Spotify.load().then(()=> {
-            Spotify.getCategory(this.props.params.category, {country: "GB"}).then((result) => {
+            Spotify.getCategory(this.props.match.params.category, {country: "GB"}).then((result) => {
                 this.setState({
                     name: result.name,
                     art: result.icons.length > 0 ? result.icons[0].url : ''
@@ -64,7 +71,7 @@ class Category extends React.Component {
 
     loadMorePlaylists() {
         Spotify.load().then(()=> {
-            Spotify.getCategoryPlaylists(this.props.params.category, {
+            Spotify.getCategoryPlaylists(this.props.match.params.category, {
                 offset: this.state.playlists.length,
                 country: "GB"
             }).then((result) => {

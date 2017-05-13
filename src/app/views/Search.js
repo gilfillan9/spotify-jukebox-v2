@@ -4,6 +4,7 @@ import {Panel} from "react-toolbox/lib/layout";
 import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {AlbumCard, PlaylistCard, ArtistCard} from "../components/Card";
+import {objCompare} from "../libs/helpers";
 
 class Search extends React.Component {
     state = {
@@ -13,6 +14,9 @@ class Search extends React.Component {
         artists: [],
     };
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.location.query.query !== this.props.location.query.query || !objCompare(nextState, this.state);
+    }
 
     render() {
         const tracks = this.state.tracks.length > 0 ? (

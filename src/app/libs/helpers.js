@@ -1,5 +1,3 @@
-import {browserHistory} from "react-router";
-
 export function eventPassthrough(context, name, valFn) {
     return function () {
         if (context.props[name] && "function" === typeof context.props[name]) {
@@ -36,14 +34,44 @@ export function arrayEquals(a, b) {
     return true;
 }
 
-export function linkHandler(path) {
-    if (arguments.length === 1) {
-        return (e) => {
-            e.preventDefault();
-            browserHistory.push(path);
-        };
-    } else {
-        path.preventDefault();
-        browserHistory.push(path.target.pathname + path.target.search + path.target.hash);
+export function objCompare(obj1, obj2, noOpposite = false, seenObjects = []) {
+    try {
+        if (typeof obj1 !== typeof obj2) return false;
+
+        let seenKeys = {};
+        let same = true;
+
+        if (seenObjects.indexOf(obj1) !== -1 || seenObjects.indexOf(obj2) !== -1) {
+            return false;
+        }
+        seenObjects.push(obj1);
+        seenObjects.push(obj2);
+
+        if ("object" === typeof obj1 && obj1 !== null && obj2 !== null) {
+            same = Object.keys(obj1).every(function (key) {
+                let val = obj1[key];
+
+                if ("undefined" !== typeof seenKeys[key]) {
+                    return true;
+                }
+                seenKeys[key] = true;
+
+                if (typeof val !== typeof obj2[key]) {
+                    return false;
+                } else if ("object" === typeof val) {
+                    return objCompare(val, obj2[key], noOpposite, seenObjects);
+                } else if (val !== obj2[key]) {
+                    return false;
+                }
+
+                return true;
+            });
+        } else {
+            same = obj1 === obj2;
+        }
+
+        return same && (noOpposite === false || objCompare(obj2, obj1, true, seenObjects));
+    } catch (e) {
+        return false;
     }
 }

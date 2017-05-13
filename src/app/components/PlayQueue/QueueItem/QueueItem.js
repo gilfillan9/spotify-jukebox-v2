@@ -4,7 +4,8 @@ import {ListItemText} from "react-toolbox/lib/list/ListItemText";
 import AlbumArt from "../../AlbumArt";
 import {Button} from "react-toolbox/lib/button";
 import styles from "./QueueItem.scss";
-import {eventPassthrough, linkHandler} from "../../../libs/helpers";
+import {eventPassthrough} from "../../../libs/helpers";
+import {Link} from "react-router-dom";
 
 
 class QueueItem extends React.Component {
@@ -22,7 +23,7 @@ class QueueItem extends React.Component {
                     itemContent={(<div className={styles['content-wrap']}>
                         <ListItemText theme={styles} primary>{this.props.track.name}</ListItemText>
                         <ListItemText theme={styles} className={styles.artists}>{this.props.track.artists.map((artist, index) => (
-                            <a href={"/artist/" + artist.id} key={artist.id + "-" + index} onClick={linkHandler}>{artist.name}</a>
+                            <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
                         ))}</ListItemText>
                     </div>)}
                     caption={this.props.track.name}

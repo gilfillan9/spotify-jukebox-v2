@@ -5,6 +5,7 @@ import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {Button} from "react-toolbox/lib/button";
 import Socket from "../libs/Socket";
+import {objCompare} from "../libs/helpers";
 
 class Album extends React.Component {
     state = {
@@ -15,6 +16,12 @@ class Album extends React.Component {
         tracks: [],
         art: ""
     };
+
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.match.params.album !== nextProps.match.params.album || !objCompare(nextState, this.state);
+    }
+
 
     render() {
         return (
@@ -45,21 +52,23 @@ class Album extends React.Component {
         this.load();
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            uri: "",
-            album: null,
-            artists: [],
-            name: "",
-            tracks: [],
-            art: ""
-        });
-        this.load();
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.album !== nextProps.match.params.album) {
+            this.setState({
+                uri: "",
+                album: null,
+                artists: [],
+                name: "",
+                tracks: [],
+                art: ""
+            });
+            this.load();
+        }
     }
 
     load() {
-        Spotify.load().then(()=> {
-            Spotify.getAlbum(this.props.params.album, {market: "GB"}).then((result) => {
+        Spotify.load().then(() => {
+            Spotify.getAlbum(this.props.match.params.album, {market: "GB"}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
@@ -79,21 +88,21 @@ class Album extends React.Component {
     }
 
     loadMoreTracks() {
-        Spotify.load().then(()=> {
-            Spotify.getAlbumTracks(this.props.params.album, {
-                offset: this.state.tracks,
+        Spotify.load().then(() => {
+            Spotify.getAlbumTracks(this.props.match.params.album, {
+                offset: this.state.tracks.length,
                 market: "GB"
             }).then((result) => {
-                if (result.total > result.items.length + this.state.tracks.length) {
-                    this.loadMoreTracks();
-                }
                 this.setState({
                     tracks: this.state.tracks.concat(result.items.map((track) => {
                         track.album = this.state.album;
                         return track
                     })),
+                }, () => {
+                    if (result.total > this.state.tracks.length) {
+                        this.loadMoreTracks();
+                    }
                 });
-
             })
         })
     }

@@ -3,6 +3,7 @@ import {Panel} from "react-toolbox/lib/layout";
 import main from "./Main.scss";
 import {PlaylistCard, CategoryCard} from "../components/Card";
 import Spotify from "../libs/Spotify";
+import {objCompare} from "../libs/helpers";
 
 class Browse extends React.Component {
     state = {
@@ -10,6 +11,10 @@ class Browse extends React.Component {
         playlists: [],
         categories: []
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return nextProps.location.key !== this.props.location.key || !objCompare(nextState, this.state);
+    }
 
     render() {
         const playlists = this.state.playlists.map((playlist, index) => (<PlaylistCard playlist={playlist} key={index}/>));

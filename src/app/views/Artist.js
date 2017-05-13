@@ -4,6 +4,7 @@ import {Panel} from "react-toolbox/lib/layout";
 import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {AlbumCard} from "../components/Card";
+import {objCompare} from "../libs/helpers";
 
 
 class Artist extends React.Component {
@@ -15,6 +16,10 @@ class Artist extends React.Component {
         tracks: [],
         art: ""
     };
+
+    shouldComponentUpdate(nextProps, nextState) {
+        return this.props.match.params.artist !== nextProps.match.params.artist || !objCompare(nextState, this.state);
+    }
 
     render() {
         return (
@@ -40,14 +45,14 @@ class Artist extends React.Component {
 
     load() {
         Spotify.load().then(()=> {
-            Spotify.getArtist(this.props.params.artist, {market: 'GB'}).then((result) => {
+            Spotify.getArtist(this.props.match.params.artist, {market: 'GB'}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
                     art: result.images.length > 0 ? result.images[0].url : ''
                 });
             });
-            Spotify.getArtistTopTracks(this.props.params.artist, "GB").then((result) => {
+            Spotify.getArtistTopTracks(this.props.match.params.artist, "GB").then((result) => {
                 this.setState({
                     tracks: result.tracks
                 });
@@ -60,21 +65,23 @@ class Artist extends React.Component {
         this.load();
     }
 
-    componentWillReceiveProps() {
-        this.setState({
-            uri: "",
-            albums: [],
-            singles: [],
-            name: "",
-            tracks: [],
-            art: ""
-        });
-        this.load();
+    componentWillReceiveProps(nextProps) {
+        if (this.props.match.params.artist !== nextProps.match.params.artist) {
+            this.setState({
+                uri: "",
+                albums: [],
+                singles: [],
+                name: "",
+                tracks: [],
+                art: ""
+            });
+            this.load();
+        }
     }
 
     loadMoreAlbums() {
         Spotify.load().then(()=> {
-            Spotify.getArtistAlbums(this.props.params.artist, {market: 'GB', offset: this.state.albums.length + this.state.singles.length, album_type: "album,single"}).then((result) => {
+            Spotify.getArtistAlbums(this.props.match.params.artist, {market: 'GB', offset: this.state.albums.length + this.state.singles.length, album_type: "album,single"}).then((result) => {
                 if (result.total > this.state.albums.length + this.state.singles.length + result.items.length) {
                     this.loadMoreAlbums();
                 }

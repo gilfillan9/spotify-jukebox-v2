@@ -1,11 +1,10 @@
 import React from "react";
 import styles from "./Logo.scss";
-import {linkHandler} from "../../../libs/helpers";
-
+import {Link} from "react-router-dom";
 
 const Logo = () => (
     <div className={styles.logo}>
-        <a href="/" className={styles.link} onClick={linkHandler}>Jukebox</a>
+        <Link to="/" className={styles.link}>Jukebox</Link>
     </div>
 );
 
