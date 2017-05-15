@@ -1,0 +1,51 @@
+.up-next {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    min-width: 300px;
+
+    //display: flex;
+    //flex-direction: row;
+
+    h5 {
+        font-size: 20px;
+        color: #333
+    }
+
+    .container {
+        display: flex;
+    }
+
+    .details {
+        margin: 4px 20px 4px 10px;
+
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 16px;
+        padding-bottom: 6px;
+    }
+
+    .artists {
+        font-size: 14px;
+        a {
+            margin-right: 4px;
+            color: $color-text-secondary;
+
+            &::after {
+                content: ',';
+                display: inline;
+            }
+
+            &:last-of-type {
+                margin-right: 0;
+                &::after {
+                    display: none;
+                }
+            }
+        }
+    }
+}

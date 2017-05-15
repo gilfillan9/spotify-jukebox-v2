@@ -2,6 +2,7 @@ import React from "react";
 import {objCompare} from "../../libs/helpers";
 import styles from "./Current.scss";
 import {Link} from "react-router-dom";
+import UpNext from "./UpNext.js";
 
 export default class Current extends React.Component {
     render() {
@@ -29,6 +30,8 @@ export default class Current extends React.Component {
                             }</div>
                         </div>
                     </div>
+
+                    {this.props.queue.length > 1 ? <UpNext track={this.props.queue[1]}/> : undefined}
                 </div>
             );
         }
