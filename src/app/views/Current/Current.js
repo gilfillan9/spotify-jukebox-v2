@@ -1,9 +1,8 @@
 import React from "react";
-import {objCompare} from "../../libs/helpers";
+import {objCompare, getImageColour} from "../../libs/helpers";
 import styles from "./Current.scss";
 import {Link} from "react-router-dom";
 import UpNext from "./UpNext.js";
-import Vibrant from "node-vibrant";
 
 export default class Current extends React.Component {
     state = {
@@ -74,31 +73,10 @@ export default class Current extends React.Component {
     }
 
     loadBackgroundColour(track) {
-        let image = new Image();
-        image.crossOrigin = "Anonymous";
+        getImageColour(track.album.images[0].url).then((rgb) => {
+            this.setBackground('radial-gradient(circle at center, rgb(' + rgb + ') 5vmin, rgba(' + rgb + ', 0.2) 80%, rgba(' + rgb + ', 0) 100%)')
 
-        image.addEventListener('load', () => {
-            let vibrant = new Vibrant(image);
-
-            vibrant.getPalette().then((swatches) => {
-                if (swatches.Vibrant) {
-                    let rgb = swatches.Vibrant.getRgb().map(Math.round.bind(Math)).join(", ");
-                    this.setBackground('radial-gradient(circle at center, rgb(' + rgb + ') 5vmin, rgba(' + rgb + ', 0.2) 80%, rgba(' + rgb + ', 0) 100%)')
-                } else {
-                    this.resetBackground();
-                }
-            }).catch((e) => {
-                this.resetBackground();
-            })
-        });
-        image.addEventListener('error', (e) => {
-            this.resetBackground();
-        })
-        let url = track.album.images[0].url;
-        if (url.indexOf("https://u.scdn.co") !== -1) url = url.replace("https://u.scdn.co/images/pl/default/", "https://i.scdn.co/image/");
-
-
-        image.src = url;
+        }).catch(() => this.resetBackground());
     }
 
     setBackground(background) {

@@ -1,3 +1,5 @@
+import Vibrant from "node-vibrant";
+
 export function eventPassthrough(context, name, valFn) {
     return function () {
         if (context.props[name] && "function" === typeof context.props[name]) {
@@ -74,4 +76,33 @@ export function objCompare(obj1, obj2, noOpposite = false, seenObjects = []) {
     } catch (e) {
         return false;
     }
+}
+
+
+export function getImageColour(url) {
+    return new Promise((resolve, reject) => {
+        let image = new Image();
+        image.crossOrigin = "Anonymous";
+
+        image.addEventListener('load', () => {
+            let vibrant = new Vibrant(image);
+
+            vibrant.getPalette().then((swatches) => {
+                if (swatches.Vibrant) {
+                    let rgb = swatches.Vibrant.getRgb().map(Math.round.bind(Math)).join(", ");
+                    resolve(rgb);
+                } else {
+                    reject();
+                }
+            }).catch(() => {
+                reject();
+            })
+        });
+        image.addEventListener('error', (e) => {
+            reject();
+        })
+        if (url.indexOf("https://u.scdn.co") !== -1) url = url.replace("https://u.scdn.co/images/pl/default/", "https://i.scdn.co/image/");
+
+        image.src = url;
+    });
 }
