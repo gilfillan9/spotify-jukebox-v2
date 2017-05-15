@@ -1,8 +1,7 @@
-.idea
-node_modules
+/.idea/
+/node_modules/
 npm-debug.log
-build
-cache
-settings
-data
-libspotify-*
+/build/
+/cache/
+/settings/
+/data
