@@ -22,21 +22,43 @@
         flex-direction: column;
         align-items: center;
 
+        img {
+            z-index: 3;
+        }
+
+        .details {
+            position: relative;
+            &::after {
+                content: '';
+                display: block;
+                position: absolute;
+                top: 0;
+                right: -100px;
+                bottom: -40px;
+                left: -100px;
+                background: radial-gradient(ellipse at top center, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0) 70%);
+                pointer-events: none;
+            }
+        }
+
         .title {
             text-align: center;
             display: block;
             font-weight: 700;
             font-size: 22px;
-            margin: 20px 0 8px;
-            text-shadow: 1px 1px rgba(255, 255, 255, 0.3);
+            margin: 10px 0 8px;
+            position: relative;
+            z-index: 2;
         }
 
         .artists {
             text-align: center;
-            text-shadow: 1px 1px rgba(255, 255, 255, 0.6);
+            position: relative;
+            z-index: 2;
+
             a {
                 margin-right: 4px;
-                color: $color-text-secondary;
+                color: $color-text;
 
                 &::after {
                     content: ',';
