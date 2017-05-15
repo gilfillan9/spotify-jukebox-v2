@@ -138,6 +138,7 @@ class App extends React.Component {
                                     onVolumeChange={this.onVolumeChange.bind(this)}
                                     onSeek={this.onSeek.bind(this)}
                                     onSkip={this.onSkip.bind(this)}
+                                    kioskMode={true}
                             />
                         </div>
                     </Route>

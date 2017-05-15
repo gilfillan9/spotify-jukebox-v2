@@ -16,8 +16,8 @@ class Footer extends React.Component {
     render() {
         return (
             <footer className={style.footer}>
-                <PlayerProgress progress={this.props.progress} track={this.props.currentTrack} onSeek={this.onSeek}/>
-                <CurrentTrack track={this.props.currentTrack}/>
+                <PlayerProgress progress={this.props.progress} track={this.props.currentTrack} onSeek={this.onSeek} kioskMode={this.props.kioskMode}/>
+                <CurrentTrack track={this.props.currentTrack} kioskMode={this.props.kioskMode}/>
                 <Controls playState={this.props.playState} onSkip={this.onSkip} onPlayStateChange={this.onPlayStateChange}/>
                 <Volume shuffled={this.props.playState.shuffled} volume={this.props.volume} onVolumeChange={this.onVolumeChange.bind(this)}/>
             </footer>

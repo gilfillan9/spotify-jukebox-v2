@@ -15,6 +15,7 @@ class PlayerProgress extends React.Component {
     seek = eventPassthrough(this, 'onSeek');
 
     render() {
+        let classes = styles['player-progress'] + ' ' + (this.props.kioskMode === true ? styles['kiosk-mode'] : '');
         if ("object" === typeof this.props.track && this.props.track !== null) {
             var duration = this.props.track.duration_ms / 1000;
             const time = DurationTime({
@@ -23,7 +24,7 @@ class PlayerProgress extends React.Component {
             });
 
             return (
-                <div className={styles['player-progress']}>
+                <div className={classes}>
                     <Slider value={Math.max(0.001, this.props.progress)} max={duration} onChange={this.seek} theme={this.theme}/>
 
                     <span className={styles.label}>
@@ -33,7 +34,7 @@ class PlayerProgress extends React.Component {
             )
         } else {
             return (
-                <div className={styles['player-progress']}>
+                <div className={classes}>
                     <Slider value={0.0001} max={1} onChange={() => {
                         return false;
                     }} disabled theme={this.theme}/>

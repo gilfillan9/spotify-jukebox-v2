@@ -3,6 +3,10 @@
     top: 0;
     right: 0;
     left: 90px;
+
+    &.kiosk-mode {
+        left: 0;
+    }
 }
 
 .container {

@@ -4,8 +4,10 @@ import AlbumArt from "../../AlbumArt";
 import {Link} from "react-router-dom";
 
 
-export default ({track}) => {
-    if (track) {
+export default ({track, kioskMode}) => {
+    if (kioskMode === true) {
+        return (<div className={styles['current-track']}/>);
+    } else if (track) {
         return (
             <div className={styles['current-track']}>
                 <Link to="/current">
@@ -25,10 +27,12 @@ export default ({track}) => {
             </div>
         )
     } else {
-        return (<div className={styles['current-track']}>
-            <Link to="/current">
-                <AlbumArt width={90}/>
-            </Link>
-        </div>);
+        return (
+            <div className={styles['current-track']}>
+                <Link to="/current">
+                    <AlbumArt width={90}/>
+                </Link>
+            </div>
+        );
     }
 };
