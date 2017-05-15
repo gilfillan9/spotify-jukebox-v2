@@ -67,6 +67,12 @@ export default class Current extends React.Component {
         }
     }
 
+    componentWillMount() {
+        if (this.props.queue.length > 0 && this.props.queue[0].album.images.length > 0) {
+            this.loadBackgroundColour(this.props.queue[0]);
+        }
+    }
+
     loadBackgroundColour(track) {
         let image = new Image();
         image.crossOrigin = "Anonymous";
