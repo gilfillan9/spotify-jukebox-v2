@@ -13,7 +13,8 @@ export default class Current extends React.Component {
         nextStyles: {
             background: undefined,
             opacity: 0
-        }
+        },
+        animating: false
     };
 
     render() {
@@ -80,42 +81,58 @@ export default class Current extends React.Component {
     }
 
     setBackground(background) {
-        this.setState({
-            styles: {
-                background: this.state.styles.background,
-                opacity: 0
-            },
-            nextStyles: {
-                background: background,
-                opacity: 1
-            }
-        });
-        setTimeout(() => {
+        if (this.state.animating) {
+            clearTimeout(this.state.animating);
             this.setState({
                 styles: {
                     background: background,
-                    opacity: 1,
-                    transition: 'none'
+                    opacity: 1
                 },
                 nextStyles: {
                     background: undefined,
-                    opacity: 0,
-                    transition: 'none'
-                }
+                    opacity: 0
+                },
+                animating: false
+            })
+        } else {
+            this.setState({
+                styles: {
+                    background: this.state.styles.background,
+                    opacity: 0
+                },
+                nextStyles: {
+                    background: background,
+                    opacity: 1
+                },
+                animating: setTimeout(() => {
+                    this.setState({
+                        styles: {
+                            background: background,
+                            opacity: 1,
+                            transition: 'none'
+                        },
+                        nextStyles: {
+                            background: undefined,
+                            opacity: 0,
+                            transition: 'none'
+                        },
+                        animating: setTimeout(() => {
+                            this.setState({
+                                styles: {
+                                    background: background,
+                                    opacity: 1
+                                },
+                                nextStyles: {
+                                    background: undefined,
+                                    opacity: 0
+                                },
+                                animating: false
+                            })
+                        }, 200)
+                    });
+                }, 2000)
             });
-            setTimeout(() => {
-                this.setState({
-                    styles: {
-                        background: background,
-                        opacity: 1
-                    },
-                    nextStyles: {
-                        background: undefined,
-                        opacity: 0
-                    }
-                })
-            }, 200)
-        }, 2000)
+        }
     }
 
     resetBackground() {
