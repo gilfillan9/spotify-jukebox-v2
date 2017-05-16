@@ -5,6 +5,7 @@ import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {AlbumCard, PlaylistCard, ArtistCard} from "../components/Card";
 import {objCompare} from "../libs/helpers";
+import queryString from "query-string";
 
 class Search extends React.Component {
     state = {
@@ -15,7 +16,7 @@ class Search extends React.Component {
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextProps.location.query.query !== this.props.location.query.query || !objCompare(nextState, this.state);
+        return queryString.parse(nextProps.location.search).query !== queryString.parse(this.props.location.search).query || !objCompare(nextState, this.state);
     }
 
     render() {
@@ -66,7 +67,7 @@ class Search extends React.Component {
             <div>
                 <Panel className={main['page-raised']}>
                     <div className={main.header}>
-                        <h5>You searched for: <strong>{this.props.location.query.query}</strong></h5>
+                        <h5>You searched for: <strong>{queryString.parse(this.props.location.search).query}</strong></h5>
                     </div>
                     {tracks}
                 </Panel>
@@ -81,25 +82,25 @@ class Search extends React.Component {
 
 
     componentWillMount() {
-        this.load(this.props.location.query.query);
+        this.load(queryString.parse(this.props.location.search).query);
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.location.query.query != this.props.location.query.query) {
+        if (queryString.parse(nextProps.location.search).query != queryString.parse(this.props.location.search).query) {
             this.setState({
                 tracks: [],
                 albums: [],
                 playlists: [],
                 artists: []
             });
-            this.load(nextProps.location.query.query);
+            this.load(queryString.parse(nextProps.location.search).query);
         }
     }
 
     load(query) {
         Spotify.load().then(()=> {
             Spotify.search(query, ["album", "artist", "playlist", "track"], {market: "GB"}).then((results) => {
-                if (this.props.location.query.query != query) return;
+                if (queryString.parse(this.props.location.search).query != query) return;
                 this.setState({
                     tracks: results.tracks.items,
                     albums: results.albums.items,
