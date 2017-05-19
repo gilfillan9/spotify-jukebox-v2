@@ -22,7 +22,9 @@ class App extends React.Component {
         queue: [],
         queueRaw: [],
         connected: true,
-        settings: false
+        settings: false,
+        idleMode: true,
+        idleTimeout: null
     };
 
     onPlayStateChange(playSate) {
@@ -122,47 +124,65 @@ class App extends React.Component {
         })
     }
 
+    updateIdle() {
+        if (this.state.idleTimeout) clearTimeout(this.state.idleTimeout);
+        this.setState({
+            idleMode: false,
+            idleTimeout: setTimeout(this.startIdleMode.bind(this), 5000)
+        })
+    }
+
+    startIdleMode() {
+        this.setState({
+            idleMode: true,
+            idleTimeout: null
+        })
+    }
+
     render() {
 
         return (
             <BrowserRouter>
-                <Switch>
-                    <Route path="/kiosk">
-                        <div>
-                            <Kiosk queue={this.state.queue}/>
-                            <Footer currentTrack={this.state.queue[0]}
-                                    progress={this.state.progress}
-                                    volume={this.state.volume}
-                                    playState={this.state.playState}
-                                    onPlayStateChange={this.onPlayStateChange.bind(this)}
-                                    onVolumeChange={this.onVolumeChange.bind(this)}
-                                    onSeek={this.onSeek.bind(this)}
-                                    onSkip={this.onSkip.bind(this)}
-                                    kioskMode={true}
-                            />
-                        </div>
-                    </Route>
-                    <Route path="/">
-                        <div>
-                            <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
-                            <View queue={this.state.queue}/>
-                            <PlayQueue queue={this.state.queue}
-                                       onRemoveTrack={this.onRemoveTrack.bind(this)}
-                                       onReorder={this.onReorder.bind(this)}/>
-                            <Footer currentTrack={this.state.queue[0]}
-                                    progress={this.state.progress}
-                                    volume={this.state.volume}
-                                    playState={this.state.playState}
-                                    onPlayStateChange={this.onPlayStateChange.bind(this)}
-                                    onVolumeChange={this.onVolumeChange.bind(this)}
-                                    onSeek={this.onSeek.bind(this)}
-                                    onSkip={this.onSkip.bind(this)}
-                            />
-                            <Settings active={this.state.settings}
-                                      onClose={this.onSettingsClose.bind(this)}/>
-                        </div>
-                    </Route>
-                </Switch>
+                <div onClick={this.updateIdle.bind(this)} onTouchMove={this.updateIdle.bind(this)} onMouseMove={this.updateIdle.bind(this)}>
+                    <Switch>
+                        <Route path="/kiosk">
+                            <div>
+                                <Kiosk queue={this.state.queue} idleMode={this.state.idleMode} progress={this.state.progress}/>
+                                <Footer currentTrack={this.state.queue[0]}
+                                        progress={this.state.progress}
+                                        volume={this.state.volume}
+                                        playState={this.state.playState}
+                                        onPlayStateChange={this.onPlayStateChange.bind(this)}
+                                        onVolumeChange={this.onVolumeChange.bind(this)}
+                                        onSeek={this.onSeek.bind(this)}
+                                        onSkip={this.onSkip.bind(this)}
+                                        kioskMode={true}
+                                        idleMode={this.state.idleMode}
+                                />
+                            </div>
+                        </Route>
+                        <Route path="/">
+                            <div>
+                                <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
+                                <View queue={this.state.queue} progress={this.state.progress}/>
+                                <PlayQueue queue={this.state.queue}
+                                           onRemoveTrack={this.onRemoveTrack.bind(this)}
+                                           onReorder={this.onReorder.bind(this)}/>
+                                <Footer currentTrack={this.state.queue[0]}
+                                        progress={this.state.progress}
+                                        volume={this.state.volume}
+                                        playState={this.state.playState}
+                                        onPlayStateChange={this.onPlayStateChange.bind(this)}
+                                        onVolumeChange={this.onVolumeChange.bind(this)}
+                                        onSeek={this.onSeek.bind(this)}
+                                        onSkip={this.onSkip.bind(this)}
+                                />
+                                <Settings active={this.state.settings}
+                                          onClose={this.onSettingsClose.bind(this)}/>
+                            </div>
+                        </Route>
+                    </Switch>
+                </div>
             </BrowserRouter>
         );
     }

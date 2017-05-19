@@ -21,9 +21,11 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        transition: transform 700ms $animation-curve-fast-out-slow-in;
 
         img {
             z-index: 3;
+            max-height: 70vh;
         }
 
         .details {
@@ -71,6 +73,34 @@
                         display: none;
                     }
                 }
+            }
+        }
+    }
+
+    &.kiosk-mode {
+        background-color: #000;
+
+        .content-wrap {
+            transform: translateY(-($footer-height / 2));
+        }
+
+        .title {
+            color: #eee;
+        }
+
+        .artists a {
+            color: #aaa;
+        }
+
+        .details {
+            &::after {
+                background: radial-gradient(ellipse at top center, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0) 70%);
+            }
+        }
+
+        &.idle-mode {
+            .content-wrap {
+                transform: none;
             }
         }
     }

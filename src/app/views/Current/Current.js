@@ -31,7 +31,7 @@ export default class Current extends React.Component {
         } else {
             const currentTrack = queue[0];
             return (
-                <div key={'main'} className={styles['current-page']}>
+                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')}>
                     <div className={styles.background} style={this.state.styles}/>
                     <div className={styles.background} style={this.state.nextStyles}/>
                     <div className={styles['content-wrap']}>
@@ -46,7 +46,7 @@ export default class Current extends React.Component {
                         </div>
                     </div>
 
-                    {this.props.queue.length > 1 ? <UpNext track={this.props.queue[1]}/> : undefined}
+                    {this.props.queue.length > 1 ? <UpNext kioskMode={this.props.kioskMode} queue={this.props.queue} idleMode={this.props.idleMode} progress={this.props.progress}/> : undefined}
                 </div>
             );
         }
@@ -54,7 +54,7 @@ export default class Current extends React.Component {
 
 
     shouldComponentUpdate(nextProps, nextState) {
-        return !objCompare(this.state.styles, nextState.styles) || !objCompare(this.state.nextStyles, nextState.nextStyles) || !objCompare(this.props.queue[0], nextProps.queue[0]) || !objCompare(this.props.queue[1], nextProps.queue[1]);
+        return this.props.progress !== nextProps.progress || this.props.idleMode !== nextProps.idleMode || !objCompare(this.state.styles, nextState.styles) || !objCompare(this.state.nextStyles, nextState.nextStyles) || !objCompare(this.props.queue[0], nextProps.queue[0]) || !objCompare(this.props.queue[1], nextProps.queue[1]);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -75,7 +75,7 @@ export default class Current extends React.Component {
 
     loadBackgroundColour(track) {
         getImageColour(track.album.images[0].url).then((rgb) => {
-            this.setBackground('radial-gradient(circle at center, rgb(' + rgb + ') 5vmin, rgba(' + rgb + ', 0.2) 80%, rgba(' + rgb + ', 0) 100%)')
+            this.setBackground('radial-gradient(circle at center, rgb(' + rgb + ') 5vmin, rgba(' + rgb + ', 0.3) 80%, rgba(' + rgb + ', 0.1) 100%)')
 
         }).catch(() => this.resetBackground());
     }

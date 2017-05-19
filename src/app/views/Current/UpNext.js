@@ -5,21 +5,23 @@ import {Link} from "react-router-dom";
 import {objCompare, getImageColour} from "../../libs/helpers";
 
 class UpNext extends React.Component {
-    state = {
-        background: undefined
-    };
 
     render() {
+        let progress = this.props.progress;
+        let trackDuration = this.props.queue[0].duration_ms / 1000;
+        let hide = this.props.idleMode && !((progress > 1 && 15 > progress) || (progress > trackDuration - 30 && trackDuration - 1 > progress));
+
+        let track = this.props.queue[1];
+
         return (
-            <div className={styles['up-next']}>
-                <div className={styles.background} style={{background: this.state.background}}/>
-                <h5>Up Next:</h5>
+            <div className={styles['up-next'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (hide ? styles['idle-mode'] : '')}>
+                <h5>Up Next</h5>
                 <div className={styles.container}>
-                    <AlbumArt album={this.props.track.album} height={80}/>
+                    <AlbumArt album={track.album} height={80}/>
                     <div className={styles.details}>
-                        <span className={styles.title}>{this.props.track.name}</span>
+                        <span className={styles.title}>{track.name}</span>
                         <div className={styles.artists}>{
-                            this.props.track.artists.map((artist, i) => (
+                            track.artists.map((artist, i) => (
                                 <Link key={i} to={'/artist/' + artist.id}>{artist.name}</Link>
                             ))
                         }</div>
@@ -30,29 +32,7 @@ class UpNext extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.state.background !== nextState.background || !objCompare(this.props.track, nextProps.track);
-    }
-
-
-    componentWillUpdate(nextProps, nextState) {
-        if (!objCompare(this.props.track, nextProps.track)) {
-            this.loadBackgroundColour(nextProps.track);
-        }
-    }
-
-    componentWillMount() {
-        if (this.props.track.album.images.length > 0) {
-            this.loadBackgroundColour(this.props.track);
-        }
-    }
-
-
-    loadBackgroundColour(track) {
-        getImageColour(track.album.images[0].url).then((rgb) => {
-            this.setState({background: 'radial-gradient(at bottom right, rgba(' + rgb + ', 0.4) 0%, rgba(' + rgb + ', 0.25) 40%, rgba(' + rgb + ', 0) 70%)'})
-        }).catch(() => {
-            this.setState({background: undefined})
-        });
+        return this.props.progress !== nextProps.progress || this.props.idleMode !== nextProps.idleMode || !objCompare(this.props.queue[1], nextProps.queue[1]);
     }
 }
 

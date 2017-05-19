@@ -16,7 +16,7 @@ class Main extends React.Component {
         return (
             <main className={styles.main}>
                 <Route path="/" exact component={Browse}/>
-                <Route path="/current" render={() => <Current queue={this.props.queue}/>}/>
+                <Route path="/current" render={() => <Current queue={this.props.queue} progress={this.props.progress}/>}/>
                 <Route path="/playlist/:user/:playlist" component={Playlist}/>
                 <Route path="/album/:album" component={Album}/>
                 <Route path="/artist/:artist" component={Artist}/>

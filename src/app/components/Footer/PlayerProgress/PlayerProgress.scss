@@ -6,6 +6,10 @@
 
     &.kiosk-mode {
         left: 0;
+
+        .container .innerprogress {
+            background: transparent;
+        }
     }
 }
 
