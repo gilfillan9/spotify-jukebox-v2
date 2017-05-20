@@ -7,7 +7,7 @@
     justify-content: center;
 
     .background {
-        transition: opacity 2s linear;
+        transition: opacity 700ms $animation-curve-fast-out-slow-in;
         position: absolute;
         top: 0;
         right: 0;
@@ -26,20 +26,22 @@
         img {
             z-index: 3;
             max-height: 70vh;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
         }
 
         .details {
             position: relative;
-            &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                top: 0;
-                right: -100px;
-                bottom: -40px;
-                left: -100px;
-                background: radial-gradient(ellipse at top center, rgba(255, 255, 255, 0.4) 30%, rgba(255, 255, 255, 0) 70%);
-                pointer-events: none;
+            margin-top: 30px;
+
+            &.light {
+                .title {
+                    color: rgba(0, 0, 0, .87);
+                }
+
+                .artists a {
+                    color: rgba(0, 0, 0, .7);
+                }
             }
         }
 
@@ -47,20 +49,24 @@
             text-align: center;
             display: block;
             font-weight: 700;
-            font-size: 22px;
-            margin: 10px 0 8px;
+            font-size: 30px;
+            margin: 0 0 8px;
             position: relative;
             z-index: 2;
+            color: rgba(0, 0, 0, .87);
+            transition: color 700ms $animation-curve-fast-out-slow-in;
         }
 
         .artists {
             text-align: center;
             position: relative;
             z-index: 2;
+            font-size: 20px;
 
             a {
                 margin-right: 4px;
-                color: $color-text;
+                color: rgba(0, 0, 0, .7);
+                transition: color 700ms $animation-curve-fast-out-slow-in;
 
                 &::after {
                     content: ',';

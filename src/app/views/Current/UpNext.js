@@ -2,14 +2,14 @@ import React from "react";
 import styles from "./UpNext.scss";
 import AlbumArt from "../../components/AlbumArt";
 import {Link} from "react-router-dom";
-import {objCompare, getImageColour} from "../../libs/helpers";
+import {objCompare} from "../../libs/helpers";
 
 class UpNext extends React.Component {
 
     render() {
         let progress = this.props.progress;
         let trackDuration = this.props.queue[0].duration_ms / 1000;
-        let hide = this.props.idleMode && !((progress > 1 && 15 > progress) || (progress > trackDuration - 30 && trackDuration - 1 > progress));
+        let hide = this.props.idleMode && !((progress > 1 && 15 > progress) || (progress > trackDuration - 30 && trackDuration - 2 > progress));
 
         let track = this.props.queue[1];
 

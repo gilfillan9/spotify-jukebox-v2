@@ -1,5 +1,5 @@
 import React from "react";
-import {objCompare, getImageColour} from "../../libs/helpers";
+import {objCompare, getImageColour, increaseTextContrast} from "../../libs/helpers";
 import styles from "./Current.scss";
 import {Link} from "react-router-dom";
 import UpNext from "./UpNext.js";
@@ -14,7 +14,8 @@ export default class Current extends React.Component {
             background: undefined,
             opacity: 0
         },
-        animating: false
+        animating: false,
+        lightMode: false,
     };
 
     render() {
@@ -36,7 +37,7 @@ export default class Current extends React.Component {
                     <div className={styles.background} style={this.state.nextStyles}/>
                     <div className={styles['content-wrap']}>
                         <img src={currentTrack.album.images.length > 0 ? currentTrack.album.images[0].url : '/images/svg/default-art.svg'} alt={currentTrack.name}/>
-                        <div className={styles.details}>
+                        <div className={styles.details + ' ' + (this.state.lightMode ? styles.light : '')}>
                             <span className={styles.title}>{currentTrack.name}</span>
                             <div className={styles.artists}>{
                                 currentTrack.artists.map((artist, i) => (
@@ -75,12 +76,17 @@ export default class Current extends React.Component {
 
     loadBackgroundColour(track) {
         getImageColour(track.album.images[0].url).then((rgb) => {
-            this.setBackground('radial-gradient(circle at center, rgb(' + rgb + ') 5vmin, rgba(' + rgb + ', 0.3) 80%, rgba(' + rgb + ', 0.1) 100%)')
+            // this.setBackground()
+            this.setBackground(rgb);
 
         }).catch(() => this.resetBackground());
     }
 
-    setBackground(background) {
+    setBackground(rgb) {
+        let rgbString = rgb.join(', ');
+        let background = 'radial-gradient(circle at center, rgb(' + rgbString + ') 5vmin, rgba(' + rgbString + ', 0.3) 80%, rgba(' + rgbString + ', 0.1) 100%)';
+        let lightMode = increaseTextContrast(rgb);
+
         if (this.state.animating) {
             clearTimeout(this.state.animating);
             this.setState({
@@ -92,7 +98,8 @@ export default class Current extends React.Component {
                     background: undefined,
                     opacity: 0
                 },
-                animating: false
+                animating: false,
+                lightMode: lightMode,
             })
         } else {
             this.setState({
@@ -104,6 +111,7 @@ export default class Current extends React.Component {
                     background: background,
                     opacity: 1
                 },
+                lightMode: lightMode,
                 animating: setTimeout(() => {
                     this.setState({
                         styles: {
@@ -130,12 +138,12 @@ export default class Current extends React.Component {
                             })
                         }, 200)
                     });
-                }, 2000)
+                }, 700)
             });
         }
     }
 
     resetBackground() {
-        this.setBackground(undefined);
+        this.setBackground([0, 0, 0]);
     }
 }

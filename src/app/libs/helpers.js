@@ -89,8 +89,7 @@ export function getImageColour(url) {
 
             vibrant.getPalette().then((swatches) => {
                 if (swatches.Vibrant) {
-                    let rgb = swatches.Vibrant.getRgb().map(Math.round.bind(Math)).join(", ");
-                    resolve(rgb);
+                    resolve(swatches.Vibrant.getRgb().map(Math.round.bind(Math)));
                 } else {
                     reject();
                 }
@@ -105,4 +104,16 @@ export function getImageColour(url) {
 
         image.src = url;
     });
+}
+
+//From http://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color
+export function increaseTextContrast(rgb) {
+    let r = rgb[0];
+    let g = rgb[1];
+    let b = rgb[2];
+
+    // Counting the perceptive luminance
+    // human eye favors green color...
+    let a = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return (a < 0.5);
 }
