@@ -71,11 +71,17 @@ export default class Current extends React.Component {
     componentWillMount() {
         if (this.props.queue.length > 0 && this.props.queue[0].album.images.length > 0) {
             this.loadBackgroundColour(this.props.queue[0]);
+        } else {
+            this.resetBackground();
         }
     }
 
     loadBackgroundColour(track) {
-        getImageColour(track.album.images[0].url).then((rgb) => {
+        let url = track.album.images[0].url;
+        if (url === this._url) return;
+        this._url = url;
+
+        getImageColour(url).then((rgb) => {
             // this.setBackground()
             this.setBackground(rgb);
 
