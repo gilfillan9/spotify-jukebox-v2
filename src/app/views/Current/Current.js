@@ -23,9 +23,11 @@ export default class Current extends React.Component {
 
         if (queue.length === 0) {
             return (
-                <div className={styles['current-page']}>
+                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')}>
+                    <div className={styles.background} style={this.state.styles}/>
+                    <div className={styles.background} style={this.state.nextStyles}/>
                     <div className={styles['content-wrap']}>
-                        <img src='/images/svg/default-art.svg' style={{width: "50vmin"}}/>
+                        <img src={this.props.kioskMode ? '/images/svg/default-art-dark.svg' : '/images/svg/default-art.svg'} className={styles['no-border']} style={{width: "50vmin"}}/>
                     </div>
                 </div>
             );
@@ -150,6 +152,10 @@ export default class Current extends React.Component {
     }
 
     resetBackground() {
-        this.setBackground([0, 0, 0]);
+        if(this.props.kioskMode) {
+            this.setBackground([20, 20, 20]);
+        } else {
+            this.setBackground([175, 175, 175]);
+        }
     }
 }
