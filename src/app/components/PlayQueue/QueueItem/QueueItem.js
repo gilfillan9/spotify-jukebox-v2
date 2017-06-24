@@ -27,7 +27,7 @@ class QueueItem extends React.Component {
                         ))}</ListItemText>
                     </div>)}
                     caption={this.props.track.name}
-                    legend={this.props.track.artists.map((artist) => artist.name).join(", ")}
+                    legend={this.props.track.artists instanceof Array ? this.props.track.artists.map((artist) => artist.name).join(", ") : ''}
                     rightActions={this.props.selected ? [] : [
                         (<Button icon="" mini floating key="remove" onClick={this.remove.bind(this)} theme={styles}/>)
                     ]}

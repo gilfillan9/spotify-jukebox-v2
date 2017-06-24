@@ -21,9 +21,9 @@ class UpNext extends React.Component {
                     <div className={styles.details}>
                         <span className={styles.title}>{track.name}</span>
                         <div className={styles.artists}>{
-                            track.artists.map((artist, i) => (
+                            track.artists instanceof Array ? track.artists.map((artist, i) => (
                                 <Link key={i} to={'/artist/' + artist.id}>{artist.name}</Link>
-                            ))
+                            )) : undefined
                         }</div>
                     </div>
                 </div>

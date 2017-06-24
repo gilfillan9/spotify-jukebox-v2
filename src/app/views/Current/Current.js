@@ -42,9 +42,9 @@ export default class Current extends React.Component {
                         <div className={styles.details + ' ' + (this.state.lightMode ? styles.light : '')}>
                             <span className={styles.title}>{currentTrack.name}</span>
                             <div className={styles.artists}>{
-                                currentTrack.artists.map((artist, i) => (
+                                currentTrack.artists instanceof Array ? currentTrack.artists.map((artist, i) => (
                                     <Link key={i} to={'/artist/' + artist.id}>{artist.name}</Link>
-                                ))
+                                )) : undefined
                             }</div>
                         </div>
                     </div>
@@ -152,7 +152,7 @@ export default class Current extends React.Component {
     }
 
     resetBackground() {
-        if(this.props.kioskMode) {
+        if (this.props.kioskMode) {
             this.setBackground([20, 20, 20]);
         } else {
             this.setBackground([175, 175, 175]);

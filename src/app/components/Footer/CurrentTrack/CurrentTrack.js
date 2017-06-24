@@ -17,9 +17,9 @@ export default ({track, kioskMode}) => {
                 <div className={styles['info-wrap']}>
                     <span className={styles.title}>{track.name}</span>
                     <div className={styles['details-wrap']}>
-                            <span className={styles.artists}>{track.artists.map((artist, index) => (
+                            <span className={styles.artists}>{track.artists instanceof Array ? track.artists.map((artist, index) => (
                                 <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
-                            ))}</span>
+                            )) : undefined}</span>
                         <span className={styles.separator}>-</span>
                         <Link className={styles.album} to={"/album/" + track.album.id}>{track.album.name}</Link>
                     </div>
