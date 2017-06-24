@@ -14,7 +14,8 @@ class Album extends React.Component {
         artists: [],
         name: "",
         tracks: [],
-        art: ""
+        art: "",
+        loading: true
     };
 
 
@@ -32,10 +33,11 @@ class Album extends React.Component {
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
                             <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
-                            <Button raised primary onClick={() => {
+                            <Button disabled={this.state.loading}  raised primary onClick={() => {
                                 Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                             }}>Add to Queue</Button>
-                            &nbsp;<Button raised onClick={() => {
+                            &nbsp;
+                            <Button disabled={this.state.loading} raised onClick={() => {
                             Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                         }}>Replace Queue</Button>
                         </div>
@@ -60,7 +62,8 @@ class Album extends React.Component {
                 artists: [],
                 name: "",
                 tracks: [],
-                art: ""
+                art: "",
+                loading: true
             });
             this.load();
         }
@@ -76,13 +79,13 @@ class Album extends React.Component {
                         track.album = result;
                         return track
                     }),
-                    art: result.images.length > 0 ? result.images[0].url : ''
+                    art: result.images.length > 0 ? result.images[0].url : '',
+                    loading: result.tracks.total > result.tracks.items.length,
+                }, () => {
+                    if (result.tracks.total > result.tracks.items.length) {
+                        this.loadMoreTracks();
+                    }
                 });
-                window.tracks = result.tracks.items;
-
-                if (result.tracks.total > result.tracks.items.length) {
-                    this.loadMoreTracks();
-                }
             });
         });
     }
@@ -98,6 +101,7 @@ class Album extends React.Component {
                         track.album = this.state.album;
                         return track
                     })),
+                    loading: result.total > this.state.tracks.length,
                 }, () => {
                     if (result.total > this.state.tracks.length) {
                         this.loadMoreTracks();

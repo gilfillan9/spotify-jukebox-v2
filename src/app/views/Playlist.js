@@ -15,7 +15,8 @@ class Playlist extends React.Component {
         name: "",
         description: "",
         tracks: [],
-        art: ""
+        art: "",
+        loading: true
     };
 
 
@@ -27,7 +28,7 @@ class Playlist extends React.Component {
         return (
             <Panel className={main['page-raised']}>
                 <div className={main['flex-container']}>
-                    <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}></div>
+                    <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}/>
                     <div className={main.flex}>
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
@@ -35,12 +36,13 @@ class Playlist extends React.Component {
                             <p>{this.state.tracks.length + " Tracks"}&nbsp; &bull; &nbsp;{DurationTime({
                                 keepDecimals: 0,
                             }).format(this.state.tracks.map((track) => track.duration_ms / 1000).reduce((prev, next) => (prev + next), 0))}</p>
-                            <Button raised primary onClick={() => {
+                            <Button disabled={this.state.loading} raised primary onClick={() => {
                                 Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
                             }}>Add to Queue</Button>
-                            &nbsp;<Button raised onClick={() => {
-                            Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
-                        }}>Replace Queue</Button>
+                            &nbsp;
+                            <Button disabled={this.state.loading} raised onClick={() => {
+                                Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                            }}>Replace Queue</Button>
                         </div>
                     </div>
                 </div>
@@ -61,7 +63,8 @@ class Playlist extends React.Component {
                 name: "",
                 description: "",
                 tracks: [],
-                art: ""
+                art: "",
+                loading: true
             });
             this.load();
         }
@@ -75,12 +78,13 @@ class Playlist extends React.Component {
                     name: result.name,
                     description: result.description,
                     tracks: result.tracks.items.map((track) => Object.assign(track.track, {added_at: track.added_at})),
-                    art: result.images.length > 0 ? result.images[0].url : ''
+                    art: result.images.length > 0 ? result.images[0].url : '',
+                    loading: result.tracks.total > result.tracks.items.length,
+                }, () => {
+                    if (result.tracks.total > result.tracks.items.length) {
+                        this.loadMoreTracks();
+                    }
                 });
-
-                if (result.tracks.total > result.tracks.items.length) {
-                    this.loadMoreTracks();
-                }
             });
         });
     }
@@ -92,7 +96,8 @@ class Playlist extends React.Component {
                 market: "GB"
             }).then((result) => {
                 this.setState({
-                    tracks: this.state.tracks.concat(result.items.map((track) => Object.assign(track.track, {added_at: track.added_at})))
+                    tracks: this.state.tracks.concat(result.items.map((track) => Object.assign(track.track, {added_at: track.added_at}))),
+                    loading: result.total > this.state.tracks.length,
                 }, () => {
                     if (result.total > this.state.tracks.length) {
                         this.loadMoreTracks();
