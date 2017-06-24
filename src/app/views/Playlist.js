@@ -5,7 +5,7 @@ import Spotify from "../libs/Spotify";
 import {objCompare} from "../libs/helpers";
 import TrackList from "../components/TrackList";
 import {Button} from "react-toolbox/lib/button";
-import Socket from "../libs/Socket";
+import Api from "../libs/Api";
 import DurationTime from "duration-time-format";
 
 
@@ -37,11 +37,31 @@ class Playlist extends React.Component {
                                 keepDecimals: 0,
                             }).format(this.state.tracks.map((track) => track.duration_ms / 1000).reduce((prev, next) => (prev + next), 0))}</p>
                             <Button disabled={this.state.loading} raised primary onClick={() => {
-                                Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                                this.setState({loading: true});
+                                Api.post('queue', {
+                                    tracks: this.state.tracks.map((track) => track.uri),
+                                    source: this.state.uri
+                                }).then(() => {
+                                    this.setState({loading: false});
+                                }).catch((e) => {
+                                    this.setState({loading: false});
+                                    alert(e.message);
+                                });
                             }}>Add to Queue</Button>
                             &nbsp;
                             <Button disabled={this.state.loading} raised onClick={() => {
-                                Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                                this.setState({loading: true});
+                                Api.delete('queue').then(() => {
+                                    return Api.post('queue', {
+                                        tracks: this.state.tracks.map((track) => track.uri),
+                                        source: this.state.uri
+                                    });
+                                }).then(() => {
+                                    this.setState({loading: false});
+                                }).catch((e) => {
+                                    this.setState({loading: false});
+                                    alert(e.message);
+                                });
                             }}>Replace Queue</Button>
                         </div>
                     </div>

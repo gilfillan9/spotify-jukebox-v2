@@ -1,6 +1,6 @@
 import React from "react";
 import {IconMenu, MenuItem, MenuDivider} from "react-toolbox/lib/menu";
-import Socket from "../../libs/Socket";
+import Api from "../../libs/Api";
 import {Link} from "react-router-dom";
 import {withRouter} from "react-router-dom";
 
@@ -13,7 +13,7 @@ class TrackActionMenu extends React.Component {
         return (
             <IconMenu>
                 <MenuItem caption="Add to Queue" icon="add" onClick={() => {
-                    Socket.emit("addTrack", {track: track.uri, source: this.props.source})
+                    Api.post("queue", {tracks: [track.uri], source: this.props.source}).catch((e) => alert(e.message));
                 }}/>
                 <MenuDivider />
                 <MenuItem caption="View Artist" onClick={() => {

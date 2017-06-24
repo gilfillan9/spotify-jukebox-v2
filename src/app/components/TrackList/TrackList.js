@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import DurationTime from "duration-time-format";
 import styles from "./TrackList.scss";
 import AlbumArt from "../AlbumArt";
-import Socket from "../../libs/Socket";
+import Api from "../../libs/Api";
 import TrackActionMenu from "../TrackActionMenu";
 import moment from "moment";
 
@@ -36,15 +36,14 @@ class TrackList extends React.Component {
         full: false
     };
 
-    onClickAlbum(track) {
-        Socket.emit("addTrack", track)
+    onClickAlbum(track, source) {
+        Api.post("queue", {tracks: [track], source: source}).catch((e) => alert(e.message));
     }
-
 
     render() {
         return (
             <Table className={styles.list} model={this.state.full ? (this.props.includeDateAdded ? TrackModelDateFull : TrackModelFull) : (this.props.includeDateAdded ? TrackModelDate : TrackModel)} source={this.props.tracks.map((track) => ({
-                image: (<AlbumArt className={styles.art} album={track.album} fill onClick={this.onClickAlbum.bind(this, {track: track.uri, source: this.props.source})}/>),
+                image: (<AlbumArt className={styles.art} album={track.album} fill onClick={this.onClickAlbum.bind(this, track.uri, this.props.source)}/>),
                 title: track.name,
                 duration: DurationTime({
                     keepDecimals: 0,

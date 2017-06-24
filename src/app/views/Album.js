@@ -4,7 +4,7 @@ import {Panel} from "react-toolbox/lib/layout";
 import Spotify from "../libs/Spotify";
 import TrackList from "../components/TrackList";
 import {Button} from "react-toolbox/lib/button";
-import Socket from "../libs/Socket";
+import Api from "../libs/Api";
 import {objCompare} from "../libs/helpers";
 
 class Album extends React.Component {
@@ -33,13 +33,33 @@ class Album extends React.Component {
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
                             <p>{this.state.tracks.length > 0 ? this.state.tracks.length + " Tracks" : ""}</p>
-                            <Button disabled={this.state.loading}  raised primary onClick={() => {
-                                Socket.emit("addTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
+                            <Button disabled={this.state.loading} raised primary onClick={() => {
+                                this.setState({loading: true});
+                                Api.post('queue', {
+                                    tracks: this.state.tracks.map((track) => track.uri),
+                                    source: this.state.uri
+                                }).then(() => {
+                                    this.setState({loading: false});
+                                }).catch((e) => {
+                                    this.setState({loading: false});
+                                    alert(e.message);
+                                });
                             }}>Add to Queue</Button>
                             &nbsp;
                             <Button disabled={this.state.loading} raised onClick={() => {
-                            Socket.emit("replaceTracks", {tracks: this.state.tracks.map((track) => track.uri), source: this.state.uri})
-                        }}>Replace Queue</Button>
+                                this.setState({loading: true});
+                                Api.delete('queue').then(() => {
+                                    return Api.post('queue', {
+                                        tracks: this.state.tracks.map((track) => track.uri),
+                                        source: this.state.uri
+                                    });
+                                }).then(() => {
+                                    this.setState({loading: false});
+                                }).catch((e) => {
+                                    this.setState({loading: false});
+                                    alert(e.message);
+                                });
+                            }}>Replace Queue</Button>
                         </div>
                     </div>
                 </div>
