@@ -23,12 +23,14 @@ class PlayerProgress extends React.Component {
                 colonNumber: duration > 3600 ? 2 : 1
             });
 
+            let progress = "number" === typeof this.props.progress ? this.props.progress : 0;
+
             return (
                 <div className={classes}>
-                    <Slider value={Math.max(0.001, this.props.progress)} max={duration} onChange={this.seek} theme={this.theme}/>
+                    <Slider value={Math.max(0.001, progress)} max={duration} onChange={this.seek} theme={this.theme}/>
 
                     <span className={styles.label}>
-                        {time.format(this.props.progress)} / {time.format(duration)}
+                        {time.format(progress)} / {time.format(duration)}
                     </span>
                 </div>
             )
