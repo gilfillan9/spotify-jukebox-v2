@@ -117,7 +117,7 @@ class Playlist extends React.Component {
             }).then((result) => {
                 this.setState({
                     tracks: this.state.tracks.concat(result.items.map((track) => Object.assign(track.track, {added_at: track.added_at}))),
-                    loading: result.total > this.state.tracks.length,
+                    loading: result.total > this.state.tracks.length + result.items.length,
                 }, () => {
                     if (result.total > this.state.tracks.length) {
                         this.loadMoreTracks();

@@ -121,7 +121,7 @@ class Album extends React.Component {
                         track.album = this.state.album;
                         return track
                     })),
-                    loading: result.total > this.state.tracks.length,
+                    loading: result.total > this.state.tracks.length + result.items.length,
                 }, () => {
                     if (result.total > this.state.tracks.length) {
                         this.loadMoreTracks();
