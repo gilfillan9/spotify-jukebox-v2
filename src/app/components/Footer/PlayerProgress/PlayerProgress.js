@@ -1,7 +1,7 @@
 import React from "react";
 import {Slider} from "react-toolbox/lib/slider";
 import styles from "./PlayerProgress.scss";
-import {eventPassthrough} from "../../../libs/helpers";
+import Api from "../../../libs/Api";
 import DurationTime from "duration-time-format";
 
 class PlayerProgress extends React.Component {
@@ -12,7 +12,9 @@ class PlayerProgress extends React.Component {
         knob: styles.knob
     };
 
-    seek = eventPassthrough(this, 'onSeek');
+    onSeek = (progress) => {
+        Api.post("player/seek", {time: progress});
+    };
 
     render() {
         let classes = styles['player-progress'] + ' ' + (this.props.kioskMode === true ? styles['kiosk-mode'] : '');
@@ -27,7 +29,7 @@ class PlayerProgress extends React.Component {
 
             return (
                 <div className={classes}>
-                    <Slider value={Math.max(0.001, progress)} max={duration} onChange={this.seek} theme={this.theme}/>
+                    <Slider value={Math.max(0.001, progress)} max={duration} onChange={this.onSeek} theme={this.theme}/>
 
                     <span className={styles.label}>
                         {time.format(progress)} / {time.format(duration)}

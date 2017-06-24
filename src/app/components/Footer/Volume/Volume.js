@@ -1,11 +1,12 @@
 import React from "react";
 import styles from "./Volume.scss";
 import {Slider} from "react-toolbox/lib/slider";
-import {eventPassthrough} from "../../../libs/helpers";
-
+import Api from "../../../libs/Api";
 
 class RightControls extends React.Component {
-    onVolumeChange = eventPassthrough(this, 'onVolumeChange');
+    onVolumeChange(volume) {
+        Api.post('volume', {volume})
+    }
 
     render() {
         return (

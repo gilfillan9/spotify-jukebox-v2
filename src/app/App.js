@@ -4,6 +4,7 @@ import View from "./views";
 import Footer from "./components/Footer";
 import PlayQueue from "./components/PlayQueue";
 import Socket from "./libs/Socket";
+import Api from "./libs/Api";
 import Spotify from "./libs/Spotify";
 import Settings from "./components/Settings";
 import {BrowserRouter, Switch, Route} from "react-router-dom";
@@ -27,25 +28,11 @@ class App extends React.Component {
         idleTimeout: null
     };
 
-    onPlayStateChange(playSate) {
-        this.setState({
-            playState: playSate
-        });
-        Socket.emit("playState", playSate);
-    }
-
-    onVolumeChange(volume) {
-        this.setState({
-            volume: volume
-        });
-        Socket.emit("volume", volume);
-    }
-
     onSeek = (progress) => {
         this.setState({
             progress: progress
         });
-        Socket.emit("seek", progress)
+        Api.post("player/seek", {time: progress});
     };
 
 
@@ -66,32 +53,13 @@ class App extends React.Component {
         }
     }
 
-    /**
-     * @param {int} direction negative for back, positive for forward
-     */
-    onSkip = (direction) => {
-        if (direction > 0) {
-            var queue = this.state.queue.concat();
-            queue.shift();
-            this.setState({
-                queue: queue,
-                progress: 0
-            });
-        } else {
-            this.setState({
-                progress: 0
-            });
-        }
-        Socket.emit("skip", direction);
-    };
-
     onRemoveTrack(uuid) {
         var queue = this.state.queue.filter((track) => track.uuid != uuid);
 
         this.setState({
             queue: queue
         });
-        Socket.emit("removeTrack", uuid)
+        Api.delete('queue/' + uuid);
     }
 
     onReorder(order) {
@@ -101,7 +69,7 @@ class App extends React.Component {
         this.setState({
             queue: queue
         });
-        Socket.emit("reorder", order)
+        Api.post("queue/order", {tracks: order})
     }
 
     loadTracks(queue) {
@@ -152,10 +120,6 @@ class App extends React.Component {
                                         progress={this.state.progress}
                                         volume={this.state.volume}
                                         playState={this.state.playState}
-                                        onPlayStateChange={this.onPlayStateChange.bind(this)}
-                                        onVolumeChange={this.onVolumeChange.bind(this)}
-                                        onSeek={this.onSeek.bind(this)}
-                                        onSkip={this.onSkip.bind(this)}
                                         kioskMode={true}
                                         idleMode={this.state.idleMode}
                                 />
@@ -172,10 +136,6 @@ class App extends React.Component {
                                         progress={this.state.progress}
                                         volume={this.state.volume}
                                         playState={this.state.playState}
-                                        onPlayStateChange={this.onPlayStateChange.bind(this)}
-                                        onVolumeChange={this.onVolumeChange.bind(this)}
-                                        onSeek={this.onSeek.bind(this)}
-                                        onSkip={this.onSkip.bind(this)}
                                 />
                                 <Settings active={this.state.settings}
                                           onClose={this.onSettingsClose.bind(this)}/>

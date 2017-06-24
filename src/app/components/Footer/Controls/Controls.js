@@ -2,27 +2,29 @@ import React from "react";
 import {Button} from "react-toolbox/lib/button";
 import styles from "./Controls.scss";
 import PlayButton from "./PlayButton";
-import {eventPassthrough} from "../../../libs/helpers";
+import Api from "../../../libs/Api";
 
 class Controls extends React.Component {
 
-    onSkip = eventPassthrough(this, 'onSkip');
-    updatePlayState = eventPassthrough(this, 'onPlayStateChange', () => this.props.playState);
+    onSkip(direction) {
+        if (direction > 0) {
+            Api.post('queue/skip/forward');
+        } else {
+            Api.post('queue/skip/back');
+        }
+    }
 
     onShuffleClicked() {
-        this.props.playState.shuffled = !this.props.playState.shuffled;
-        this.updatePlayState();
+        Api.post(this.props.playState.shuffled ? "player/shuffle/off" : "player/shuffle/on");
     };
 
     onPhoneClicked(on) {
-        this.props.playState.phone = on;
-        this.updatePlayState();
+        Api.post(on ? "volume/phone/on" : "volume/phone/off");
     };
 
 
     onPlayClicked(playing) {
-        this.props.playState.playing = playing;
-        this.updatePlayState();
+        Api.post(playing ? "player/play" : "player/pause");
     };
 
 
