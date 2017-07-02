@@ -7,6 +7,11 @@ const app = express();
 const server = require('http').createServer(app);
 const path = require('path');
 
+if (!Object.values) {
+    const values = require('object.values');
+    values.shim();
+}
+
 console.log("Running part,", part)
 if (part == "webpack" || part == "both") {
 
