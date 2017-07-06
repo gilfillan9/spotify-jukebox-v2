@@ -77,7 +77,7 @@ class TrackList extends React.Component {
     onResize() {
         const full = window.innerWidth > 1200;
 
-        if (this.state.full != full) {
+        if (this.state.full !== full) {
             this.setState({
                 full: full
             })

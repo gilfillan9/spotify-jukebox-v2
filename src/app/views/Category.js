@@ -24,7 +24,7 @@ class Category extends React.Component {
             <div>
                 <Panel className={main['page-raised']}>
                     <div className={main['flex-container']}>
-                        <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}></div>
+                        <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}/>
                         <div className={main.flex}>
                             <div className={main.header}>
                                 <h5>{this.state.name}</h5>

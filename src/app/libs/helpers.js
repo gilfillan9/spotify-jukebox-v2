@@ -3,8 +3,8 @@ import Vibrant from "node-vibrant";
 export function eventPassthrough(context, name, valFn) {
     return function () {
         if (context.props[name] && "function" === typeof context.props[name]) {
-            var args = Array.prototype.slice.call(arguments);
-            var value = "function" === typeof valFn ? valFn.apply(context, args) : args;
+            let args = Array.prototype.slice.call(arguments);
+            let value = "function" === typeof valFn ? valFn.apply(context, args) : args;
             if (!Array.isArray(value)) {
                 value = [value];
             }
@@ -18,17 +18,17 @@ export function arrayEquals(a, b) {
     if ((!a && b) || (a && !b))
         return false;
 
-    if (a.length != b.length)
+    if (a.length !== b.length)
         return false;
 
-    for (var i = 0, l = a.length; i < l; i++) {
+    for (let i = 0, l = a.length; i < l; i++) {
         // Check if we have nested arrays
         if (a[i] instanceof Array && b[i] instanceof Array) {
             // recurse into the nested arrays
             if (!arrayEquals(a[i], b[i]))
                 return false;
         }
-        else if (a[i] != b[i]) {
+        else if (a[i] !== b[i]) {
             // Warning - two different object instances will never be equal: {x:20} != {x:20}
             return false;
         }
@@ -99,7 +99,7 @@ export function getImageColour(url) {
         });
         image.addEventListener('error', (e) => {
             reject();
-        })
+        });
         if (url.indexOf("https://u.scdn.co") !== -1) url = url.replace("https://u.scdn.co/images/pl/default/", "https://i.scdn.co/image/");
 
         image.src = url;

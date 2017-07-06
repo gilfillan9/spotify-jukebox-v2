@@ -24,7 +24,7 @@ class PlayQueue extends React.Component {
             this.setState({
                 scrolled: true
             })
-        } else if (this.state.scrolled && scrollTop == 0) {
+        } else if (this.state.scrolled && scrollTop === 0) {
             this.setState({
                 scrolled: false
             })
@@ -49,7 +49,7 @@ class PlayQueue extends React.Component {
         );
 
         if (this.props.queue.length > 0) {
-            const items = this.props.queue.map((track, index) => index == 0 ? undefined : (
+            const items = this.props.queue.map((track, index) => index === 0 ? undefined : (
                 <QueueItem track={track} key={track.uuid} data-id={track.uuid} onRemove={this.onRemove} selected={false} large={this.state.open}/>
             ));
 
@@ -83,7 +83,7 @@ class PlayQueue extends React.Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState != this.state || !arrayEquals(this.props.queue, nextProps.queue);
+        return nextState !== this.state || !arrayEquals(this.props.queue, nextProps.queue);
     }
 }
 

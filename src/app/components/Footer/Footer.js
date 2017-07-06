@@ -4,7 +4,6 @@ import PlayerProgress from "./PlayerProgress";
 import Controls from "./Controls";
 import Volume from "./Volume";
 import CurrentTrack from "./CurrentTrack";
-import {eventPassthrough} from "../../libs/helpers";
 
 class Footer extends React.Component {
 

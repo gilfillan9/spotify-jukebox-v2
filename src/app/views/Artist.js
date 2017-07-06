@@ -25,7 +25,7 @@ class Artist extends React.Component {
         return (
             <Panel className={main['page-raised']}>
                 <div className={main['flex-container']}>
-                    <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}></div>
+                    <div className={main.art} style={{background: "url(" + (this.state.art || "/images/svg/default-art.svg") + ") no-repeat center / cover"}}/>
                     <div className={main.flex}>
                         <div className={main.header}>
                             <h5>{this.state.name}</h5>
@@ -88,7 +88,7 @@ class Artist extends React.Component {
                 const albums = this.state.albums.concat();
                 const singles = this.state.singles.concat();
                 result.items.forEach((album) => {
-                    if (album.album_type == "single") {
+                    if (album.album_type === "single") {
                         singles.push(album);
                     } else {
                         albums.push(album);

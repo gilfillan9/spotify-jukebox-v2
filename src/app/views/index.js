@@ -8,7 +8,7 @@ import Album from "./Album";
 import Artist from "./Artist";
 import Category from "./Category";
 import Search from "./Search";
-import {withRouter} from 'react-router'
+import {withRouter} from 'react-router-dom'
 
 
 class Main extends React.Component {

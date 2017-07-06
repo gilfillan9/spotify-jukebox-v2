@@ -1,7 +1,7 @@
 import React from 'react';
 
 export default ({album, width, height, fill, ...others}) => {
-    var styles = {
+    const styles = {
         background: "url(" + ((album && album.images.length > 0 && album.images[0].url) || '/images/svg/default-art.svg') + ") no-repeat center / cover"
     };
     if (fill) {

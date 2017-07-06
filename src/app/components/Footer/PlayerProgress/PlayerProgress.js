@@ -19,7 +19,7 @@ class PlayerProgress extends React.Component {
     render() {
         let classes = styles['player-progress'] + ' ' + (this.props.kioskMode === true ? styles['kiosk-mode'] : '');
         if ("object" === typeof this.props.track && this.props.track !== null) {
-            var duration = this.props.track.duration_ms / 1000;
+            let duration = this.props.track.duration_ms / 1000;
             const time = DurationTime({
                 keepDecimals: 0,
                 colonNumber: duration > 3600 ? 2 : 1

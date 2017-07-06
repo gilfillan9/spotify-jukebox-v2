@@ -13,7 +13,7 @@ class Search extends React.Component {
     debounced = debounce(this.onChange.bind(this), 500);
 
     onChange() {
-        if (this.query != this._input.value) {
+        if (this.query !== this._input.value) {
             this.setState({
                 query: this._input.value
             });
@@ -23,7 +23,7 @@ class Search extends React.Component {
     }
 
     onKeyPress(e) {
-        if (e.which == 13/*Enter*/) {
+        if (e.which === 13/*Enter*/) {
             this.debounced.clear();
             this.onChange();
         }

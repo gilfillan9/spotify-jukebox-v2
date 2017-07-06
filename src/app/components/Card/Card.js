@@ -16,7 +16,7 @@ class CardArt extends React.Component {
     resize = () => {
         const wide = window.innerHeight < 600 || window.innerWidth < 600;
 
-        if (this.state.wide != wide) {
+        if (this.state.wide !== wide) {
             this.setState({
                 wide: wide
             })
@@ -24,7 +24,7 @@ class CardArt extends React.Component {
     };
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.state.wide != nextState.wide;
+        return this.state.wide !== nextState.wide;
     }
 
     componentWillMount() {

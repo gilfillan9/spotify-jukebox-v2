@@ -28,14 +28,6 @@ class App extends React.Component {
         idleTimeout: null
     };
 
-    onSeek = (progress) => {
-        this.setState({
-            progress: progress
-        });
-        Api.post("player/seek", {time: progress});
-    };
-
-
     componentWillMount() {
         if (Socket && Socket.on) {
             Socket.on("playState", (playState) => this.setState({playState: playState}));
@@ -43,7 +35,7 @@ class App extends React.Component {
             Socket.on("token", (token) => Spotify.setAccessToken(token));
             Socket.on("seek", (seek) => this.setState({progress: seek}));
             Socket.on("queue", (queue) => this.loadTracks(queue.map((item) => ({id: item[0], uuid: item[1], source: item[2]}))));
-            Socket.on("removeTrack", (uuid) => this.setState({queue: this.state.queue.filter((track) => track.uuid != uuid)}));
+            Socket.on("removeTrack", (uuid) => this.setState({queue: this.state.queue.filter((track) => track.uuid !== uuid)}));
         } else {
             //Shit's broken
             this.setState({
@@ -54,7 +46,7 @@ class App extends React.Component {
     }
 
     onRemoveTrack(uuid) {
-        var queue = this.state.queue.filter((track) => track.uuid != uuid);
+        let queue = this.state.queue.filter((track) => track.uuid !== uuid);
 
         this.setState({
             queue: queue
@@ -63,9 +55,9 @@ class App extends React.Component {
     }
 
     onReorder(order) {
-        var tracks = {};
+        let tracks = {};
         this.state.queue.forEach((track) => tracks[track.uuid] = track);
-        var queue = order.map((uuid) => tracks[uuid]);
+        let queue = order.map((uuid) => tracks[uuid]);
         this.setState({
             queue: queue
         });

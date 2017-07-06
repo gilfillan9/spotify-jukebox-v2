@@ -38,7 +38,7 @@ class QueueItem extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.selected != nextProps.selected || this.props.track != nextProps.track || this.props.large != nextProps.large;
+        return this.props.selected !== nextProps.selected || this.props.track !== nextProps.track || this.props.large !== nextProps.large;
     }
 
     remove = eventPassthrough(this, 'onRemove', () => this.props.track.uuid);
