@@ -18,7 +18,7 @@ class Api {
     }
 
     static request(url, data, method) {
-        let req = fetch("http://" + window.location.hostname + ':8080/api/' + url, {
+        let req = fetch("http://" + window.location.hostname + '/api/' + url, {
             method: method,
             headers: {
                 'content-type': 'application/json'

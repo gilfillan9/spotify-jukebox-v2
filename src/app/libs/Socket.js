@@ -1,6 +1,6 @@
 let socket;
 try {
-    socket = io(window.location.hostname + ":8080");
+    socket = io();
     window.socket = socket;
 } catch (e) {
 }
