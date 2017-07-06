@@ -37,9 +37,6 @@ const port = process.env.PORT || 8080;
 
 if (part == "server" || part == "both") {
     require("./lib/App")(app, server);
-} else {
-    //Dummy socket.io server to serve correct file
-    var io = require('socket.io')(server);
 }
 if (part == "webpack" || part == "both") {
     app.use('/images', express.static(path.join(__dirname, './src/www/images/')));
