@@ -6,6 +6,7 @@ import {Button} from "react-toolbox/lib/button";
 import {ProgressBar} from "react-toolbox/lib/progress_bar";
 import {Dropdown} from "react-toolbox/lib/dropdown";
 import {Input} from "react-toolbox/lib/input";
+import {Checkbox} from "react-toolbox/lib/checkbox";
 import styles from "./Settings.scss";
 import Api from "../../libs/Api";
 
@@ -18,7 +19,8 @@ class Settings extends React.Component {
         name: "",
         username: "",
         password: "",
-        loading: false
+        loading: false,
+        notifications: false
     };
 
     onClose = eventPassthrough(this, "onClose");
@@ -28,7 +30,6 @@ class Settings extends React.Component {
             this.setState({loading: true});
             Api.delete("queue").then(() => {
                 this.setState({loading: false});
-                //TODO show toast
             }).catch((e) => {
                 this.setState({loading: false});
                 alert(e.message)
@@ -39,7 +40,6 @@ class Settings extends React.Component {
     onSave() {
         this.setState({loading: true});
         Api.post("queue/save").then(() => {
-            //TODO show toast
             this.setState({loading: false});
         }).catch((e) => {
             this.setState({loading: false});
@@ -97,6 +97,8 @@ class Settings extends React.Component {
     boundAccountChange;
 
     componentWillMount() {
+        this.setState({notifications: window.localStorage.getItem('notifications') === '1'});
+
         this.boundAccountChange = this.onAccountChange.bind(this);
         Socket.on("accountChanged", this.boundAccountChange)
     }
@@ -158,14 +160,27 @@ class Settings extends React.Component {
                 <Dialog active={this.props.active}
                         onEscKeyDown={this.onClose}
                         onOverlayClick={this.onClose}
-                        title='Settings'
-                >
-                    <Button onClick={this.onSave.bind(this)} raised primary theme={styles}>Save Queue</Button>
-                    <Button onClick={this.onClear.bind(this)} raised accent theme={styles}>Clear Queue</Button>
-                    <Button onClick={this.onKill.bind(this)} raised theme={styles}>Restart Jukebox</Button>
+                        title='Settings'>
+                    <div>
+                        <Button onClick={this.onSave.bind(this)} raised primary theme={styles}>Save Queue</Button>
+                        <Button onClick={this.onClear.bind(this)} raised accent theme={styles}>Clear Queue</Button>
+                        <Button onClick={this.onKill.bind(this)} raised theme={styles}>Restart Jukebox</Button>
+                    </div>
 
-                    <span style={{
-                        height: 15,
+                    <div style={{
+                        height: 30,
+                        display: "block"
+                    }}/>
+
+                    <div>
+                        <Checkbox checked={this.state.notifications}
+                                  label="Push Notifications"
+                                  onChange={this.onNotificationsChange.bind(this)}
+                                  disabled={Notification.permission === "denied"}/>
+                    </div>
+
+                    <div style={{
+                        height: 10,
                         display: "block"
                     }}/>
 
@@ -182,6 +197,23 @@ class Settings extends React.Component {
                     </form>
                 </Dialog>
             )
+        }
+    }
+
+    onNotificationsChange(checked) {
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission((permission) => {
+                if (permission === "granted") {
+                    window.localStorage.setItem('notifications', 1);
+                    this.setState({notifications: true});
+                } else {
+                    window.localStorage.setItem('notifications', 0);
+                    this.setState({notifications: false});
+                }
+            })
+        } else {
+            window.localStorage.setItem('notifications', 1);
+            this.setState({notifications: true});
         }
     }
 
