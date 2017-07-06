@@ -20,7 +20,7 @@
     padding: 0 20px;
     align-items: center;
     justify-content: space-between;
-    margin-top:  12px;
+    margin-top: 12px;
 
     .actions {
         padding-left: 20px;
@@ -30,11 +30,13 @@
 .appear, .enter {
     opacity: 0;
     transform: translateY(100%);
-    transition: opacity $animation-duration $animation-curve-fast-out-slow-in, transform $animation-duration $animation-curve-fast-out-slow-in;
+    margin-top: -62px;
+    transition: opacity $animation-duration $animation-curve-fast-out-slow-in, transform $animation-duration $animation-curve-fast-out-slow-in, margin-top $animation-duration $animation-curve-fast-out-slow-in;
 }
 
 .appear.appearActive, .enter.enterActive {
     opacity: 1;
+    margin-top: 12px;
     transform: translateY(0);
 }
 
