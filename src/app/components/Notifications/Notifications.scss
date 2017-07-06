@@ -1,0 +1,51 @@
+.notifications {
+    position: fixed;
+    bottom: $footer-height + 24px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+}
+
+.notification {
+    display: flex;
+    flex-direction: row;
+    height: 62px;
+    min-width: 288px;
+    max-width: 568px;
+    border-radius: 2px;
+    background: #323232;
+    font-family: Roboto, arial, sans-serif;
+    font-size: 16px;
+    color: #FFFFFF;
+    padding: 0 20px;
+    align-items: center;
+    justify-content: space-between;
+    margin-top:  12px;
+
+    .actions {
+        padding-left: 20px;
+    }
+}
+
+.appear, .enter {
+    opacity: 0;
+    transform: translateY(100%);
+    transition: opacity $animation-duration $animation-curve-fast-out-slow-in, transform $animation-duration $animation-curve-fast-out-slow-in;
+}
+
+.appear.appearActive, .enter.enterActive {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.leave {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity $animation-duration cubic-bezier(0.4, 0.0, 1, 1), transform $animation-duration cubic-bezier(0.4, 0.0, 1, 1);
+}
+
+.leave.leaveActive {
+    opacity: 0;
+    transform: translateY(-100%);
+}
+

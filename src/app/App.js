@@ -3,6 +3,7 @@ import Header from "./components/Header";
 import View from "./views";
 import Footer from "./components/Footer";
 import PlayQueue from "./components/PlayQueue";
+import {Notifications, Notification} from "./components/Notifications";
 import Socket from "./libs/Socket";
 import Api from "./libs/Api";
 import Spotify from "./libs/Spotify";
@@ -36,6 +37,20 @@ class App extends React.Component {
             Socket.on("seek", (seek) => this.setState({progress: seek}));
             Socket.on("queue", (queue) => this.loadTracks(queue.map((item) => ({id: item[0], uuid: item[1], source: item[2]}))));
             Socket.on("removeTrack", (uuid) => this.setState({queue: this.state.queue.filter((track) => track.uuid !== uuid)}));
+            Socket.on("notification", (notification) => {
+                Notifications.add(<Notification {...notification} />)
+            });
+
+
+            let disconnectNotification;
+            Socket.on('disconnect', function () {
+                disconnectNotification = Notifications.add(<Notification text="Connection lost"/>);
+            });
+            Socket.on('reconnect', function () {
+                if (disconnectNotification) {
+                    Notifications.remove(disconnectNotification);
+                }
+            });
         } else {
             //Shit's broken
             this.setState({
@@ -104,6 +119,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <div onClick={this.updateIdle.bind(this)} onTouchMove={this.updateIdle.bind(this)} onMouseMove={this.updateIdle.bind(this)}>
+                    <Notifications/>
                     <Switch>
                         <Route path="/kiosk">
                             <div>
