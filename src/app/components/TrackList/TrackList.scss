@@ -17,6 +17,9 @@ a.link {
     border-collapse: collapse;
     tr {
         border-bottom: solid 1px rgba(0, 0, 0, 0.045);
+        line-height: 16px;
+        min-height: 48px;
+
         .art {
             cursor: pointer;
             &::after {
