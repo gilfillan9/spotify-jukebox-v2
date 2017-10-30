@@ -55,8 +55,7 @@ class App extends React.Component {
             //Shit's broken
             this.setState({
                 connected: false
-            });
-            alert("Couldn't load the socket, please try again");
+            }, () => alert("Couldn't load the socket, please reload the page and try again"));
         }
     }
 
