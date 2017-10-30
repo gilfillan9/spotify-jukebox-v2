@@ -22,7 +22,6 @@ class App extends React.Component {
         volume: 70,
         progress: 0,
         queue: [],
-        queueRaw: [],
         connected: true,
         settings: false,
         idleMode: true,
@@ -79,8 +78,6 @@ class App extends React.Component {
     }
 
     loadTracks(queue) {
-        this.state.queueRaw = queue;
-
         Spotify.getTracks(queue).then((tracks) => this.setState({
             queue: tracks
         }));
