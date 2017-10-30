@@ -8,6 +8,9 @@
     background: rgba(30, 30, 30, 0.2);
     backdrop-filter: blur(10px);
     transition: transform 700ms $animation-curve-fast-out-slow-in;
+    z-index: 2;
+    display: flex;
+    flex-flow: row;
 
     h5 {
         margin-top: 0;
@@ -16,10 +19,9 @@
         position: relative;
     }
 
-    .container {
-        position: relative;
-        z-index: 2;
-        display: flex;
+
+    .album-art {
+        flex: 0 0 auto;
     }
 
     .details {

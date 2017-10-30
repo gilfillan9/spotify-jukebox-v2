@@ -15,17 +15,15 @@ class UpNext extends React.Component {
 
         return (
             <div className={styles['up-next'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (hide ? styles['idle-mode'] : '')}>
-                <h5>Up Next</h5>
-                <div className={styles.container}>
-                    <AlbumArt album={track.album} height={80}/>
-                    <div className={styles.details}>
-                        <span className={styles.title}>{track.name}</span>
-                        <div className={styles.artists}>{
-                            track.artists instanceof Array ? track.artists.map((artist, i) => (
-                                <Link key={i} to={'/artist/' + artist.id}>{artist.name}</Link>
-                            )) : undefined
-                        }</div>
-                    </div>
+                <AlbumArt className={styles['album-art']} album={track.album} height={80}/>
+                <div className={styles.details}>
+                    <h5>Up Next</h5>
+                    <span className={styles.title}>{track.name}</span>
+                    <div className={styles.artists}>{
+                        track.artists instanceof Array ? track.artists.map((artist, i) => (
+                            <Link key={i} to={'/artist/' + artist.id}>{artist.name}</Link>
+                        )) : undefined
+                    }</div>
                 </div>
             </div>
         )
