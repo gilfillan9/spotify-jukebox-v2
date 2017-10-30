@@ -4,6 +4,7 @@
     bottom: 0;
     padding: 15px 10px 15px 20px;
     min-width: 350px;
+    max-width: 500px;
     background: rgba(30, 30, 30, 0.2);
     backdrop-filter: blur(10px);
     transition: transform 700ms $animation-curve-fast-out-slow-in;
@@ -27,11 +28,16 @@
         display: flex;
         justify-content: center;
         flex-direction: column;
+
+        max-width: calc(100% - 90px);
     }
 
     .title {
         font-size: 16px;
         padding-bottom: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis
     }
 
     .artists {
