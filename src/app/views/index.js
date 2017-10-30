@@ -9,12 +9,12 @@ import Artist from "./Artist";
 import Category from "./Category";
 import Search from "./Search";
 import {withRouter} from 'react-router-dom'
-
+import State from "../libs/State";
 
 class Main extends React.Component {
     render() {
         return (
-            <main className={styles.main}>
+            <main className={styles.main + ' ' + (State.kioskMode ? styles.kiosk : '')}>
                 <Route path="/" exact component={Browse}/>
                 <Route path="/current" render={() => <Current queue={this.props.queue} progress={this.props.progress}/>}/>
                 <Route path="/playlist/:user/:playlist" component={Playlist}/>

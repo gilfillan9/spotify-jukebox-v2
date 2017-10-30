@@ -3,6 +3,7 @@ import {objCompare, getImageColour, increaseTextContrast} from "../../libs/helpe
 import styles from "./Current.scss";
 import {Link} from "react-router-dom";
 import UpNext from "./UpNext.js";
+import State from "../../libs/State";
 
 export default class Current extends React.Component {
     state = {
@@ -13,19 +14,21 @@ export default class Current extends React.Component {
     render() {
         const queue = this.props.queue;
 
+        let className = styles['current-page'] + ' ' + (State.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '');
+
         if (queue.length === 0) {
             return (
-                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')} style={{background: this.state.background}}>
+                <div key={'main'} className={className} style={{background: this.state.background}}>
                     <div className={styles['background-gradient']}/>
                     <div className={styles['content-wrap']}>
-                        <img src={this.props.kioskMode ? '/images/svg/default-art-dark.svg' : '/images/svg/default-art.svg'} className={styles['no-border']} style={{width: "50vmin"}}/>
+                        <img src={State.kioskMode ? '/images/svg/default-art-dark.svg' : '/images/svg/default-art.svg'} className={styles['no-border']} style={{width: "50vmin"}}/>
                     </div>
                 </div>
             );
         } else {
             const currentTrack = queue[0];
             return (
-                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')} style={{background: this.state.background}}>
+                <div key={'main'} className={className} style={{background: this.state.background}}>
                     <div className={styles['background-gradient']}/>
                     <div className={styles['content-wrap']}>
                         <img src={currentTrack.album.images.length > 0 ? currentTrack.album.images[0].url : '/images/svg/default-art.svg'} alt={currentTrack.name}/>
@@ -39,7 +42,7 @@ export default class Current extends React.Component {
                         </div>
                     </div>
 
-                    {this.props.queue.length > 1 ? <UpNext kioskMode={this.props.kioskMode} queue={this.props.queue} idleMode={this.props.idleMode} progress={this.props.progress}/> : undefined}
+                    {this.props.queue.length > 1 ? <UpNext queue={this.props.queue} idleMode={this.props.idleMode} progress={this.props.progress}/> : undefined}
                 </div>
             );
         }
@@ -85,7 +88,7 @@ export default class Current extends React.Component {
     }
 
     resetBackground() {
-        if (this.props.kioskMode) {
+        if (State.kioskMode) {
             this.setBackground([20, 20, 20]);
         } else {
             this.setBackground([175, 175, 175]);

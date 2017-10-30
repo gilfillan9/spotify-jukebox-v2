@@ -3,6 +3,7 @@ import styles from "./UpNext.scss";
 import AlbumArt from "../../components/AlbumArt";
 import {Link} from "react-router-dom";
 import {objCompare} from "../../libs/helpers";
+import State from "../../libs/State";
 
 class UpNext extends React.Component {
 
@@ -14,7 +15,7 @@ class UpNext extends React.Component {
         let track = this.props.queue[1];
 
         return (
-            <div className={styles['up-next'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (hide ? styles['idle-mode'] : '')}>
+            <div className={styles['up-next'] + ' ' + (State.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (hide ? styles['idle-mode'] : '')}>
                 <AlbumArt className={styles['album-art']} album={track.album} height={80}/>
                 <div className={styles.details}>
                     <h5>Up Next</h5>

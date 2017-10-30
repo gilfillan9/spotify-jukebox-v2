@@ -3,6 +3,7 @@ import {Slider} from "react-toolbox/lib/slider";
 import styles from "./PlayerProgress.scss";
 import Api from "../../../libs/Api";
 import DurationTime from "duration-time-format";
+import State from "../../../libs/State";
 
 class PlayerProgress extends React.Component {
     theme = {
@@ -17,7 +18,7 @@ class PlayerProgress extends React.Component {
     };
 
     render() {
-        let classes = styles['player-progress'] + ' ' + (this.props.kioskMode === true ? styles['kiosk-mode'] : '');
+        let classes = styles['player-progress'] + ' ' + (State.kioskMode ? styles['kiosk-mode'] : '');
         if ("object" === typeof this.props.track && this.props.track !== null) {
             let duration = this.props.track.duration_ms / 1000;
             const time = DurationTime({

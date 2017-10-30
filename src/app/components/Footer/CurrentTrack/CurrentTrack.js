@@ -4,10 +4,8 @@ import AlbumArt from "../../AlbumArt";
 import {Link} from "react-router-dom";
 
 
-export default ({track, kioskMode}) => {
-    if (kioskMode === true) {
-        return (<div className={styles['current-track']}/>);
-    } else if (track) {
+export default ({track}) => {
+    if (track) {
         return (
             <div className={styles['current-track']}>
                 <Link to="/current">
@@ -17,9 +15,9 @@ export default ({track, kioskMode}) => {
                 <div className={styles['info-wrap']}>
                     <span className={styles.title}>{track.name}</span>
                     <div className={styles['details-wrap']}>
-                            <span className={styles.artists}>{track.artists instanceof Array ? track.artists.map((artist, index) => (
-                                <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
-                            )) : undefined}</span>
+                        <span className={styles.artists}>{track.artists instanceof Array ? track.artists.map((artist, index) => (
+                            <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
+                        )) : undefined}</span>
                         <span className={styles.separator}>-</span>
                         <Link className={styles.album} to={"/album/" + track.album.id}>{track.album.name}</Link>
                     </div>
