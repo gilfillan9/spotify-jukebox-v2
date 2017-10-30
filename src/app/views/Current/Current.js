@@ -6,15 +6,7 @@ import UpNext from "./UpNext.js";
 
 export default class Current extends React.Component {
     state = {
-        styles: {
-            background: undefined,
-            opacity: 0
-        },
-        nextStyles: {
-            background: undefined,
-            opacity: 0
-        },
-        animating: false,
+        background: undefined,
         lightMode: false,
     };
 
@@ -23,9 +15,8 @@ export default class Current extends React.Component {
 
         if (queue.length === 0) {
             return (
-                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')}>
-                    <div className={styles.background} style={this.state.styles}/>
-                    <div className={styles.background} style={this.state.nextStyles}/>
+                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')} style={{background: this.state.background}}>
+                    <div className={styles['background-gradient']}/>
                     <div className={styles['content-wrap']}>
                         <img src={this.props.kioskMode ? '/images/svg/default-art-dark.svg' : '/images/svg/default-art.svg'} className={styles['no-border']} style={{width: "50vmin"}}/>
                     </div>
@@ -34,9 +25,8 @@ export default class Current extends React.Component {
         } else {
             const currentTrack = queue[0];
             return (
-                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')}>
-                    <div className={styles.background} style={this.state.styles}/>
-                    <div className={styles.background} style={this.state.nextStyles}/>
+                <div key={'main'} className={styles['current-page'] + ' ' + (this.props.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (this.props.idleMode ? styles['idle-mode'] : '')} style={{background: this.state.background}}>
+                    <div className={styles['background-gradient']}/>
                     <div className={styles['content-wrap']}>
                         <img src={currentTrack.album.images.length > 0 ? currentTrack.album.images[0].url : '/images/svg/default-art.svg'} alt={currentTrack.name}/>
                         <div className={styles.details + ' ' + (this.state.lightMode ? styles.light : '')}>
@@ -57,7 +47,7 @@ export default class Current extends React.Component {
 
 
     shouldComponentUpdate(nextProps, nextState) {
-        return this.props.progress !== nextProps.progress || this.props.idleMode !== nextProps.idleMode || !objCompare(this.state.styles, nextState.styles) || !objCompare(this.state.nextStyles, nextState.nextStyles) || !objCompare(this.props.queue[0], nextProps.queue[0]) || !objCompare(this.props.queue[1], nextProps.queue[1]);
+        return this.props.progress !== nextProps.progress || this.props.idleMode !== nextProps.idleMode || this.state.background !== nextState.background || !objCompare(this.props.queue[0], nextProps.queue[0]) || !objCompare(this.props.queue[1], nextProps.queue[1]);
     }
 
     componentWillUpdate(nextProps, nextState) {
@@ -91,64 +81,7 @@ export default class Current extends React.Component {
     }
 
     setBackground(rgb) {
-        let rgbString = rgb.join(', ');
-        let background = 'radial-gradient(circle at center, rgb(' + rgbString + ') 5vmin, rgba(' + rgbString + ', 0.3) 80%, rgba(' + rgbString + ', 0.1) 100%)';
-        let lightMode = increaseTextContrast(rgb);
-
-        if (this.state.animating) {
-            clearTimeout(this.state.animating);
-            this.setState({
-                styles: {
-                    background: background,
-                    opacity: 1
-                },
-                nextStyles: {
-                    background: undefined,
-                    opacity: 0
-                },
-                animating: false,
-                lightMode: lightMode,
-            })
-        } else {
-            this.setState({
-                styles: {
-                    background: this.state.styles.background,
-                    opacity: 0
-                },
-                nextStyles: {
-                    background: background,
-                    opacity: 1
-                },
-                lightMode: lightMode,
-                animating: setTimeout(() => {
-                    this.setState({
-                        styles: {
-                            background: background,
-                            opacity: 1,
-                            transition: 'none'
-                        },
-                        nextStyles: {
-                            background: undefined,
-                            opacity: 0,
-                            transition: 'none'
-                        },
-                        animating: setTimeout(() => {
-                            this.setState({
-                                styles: {
-                                    background: background,
-                                    opacity: 1
-                                },
-                                nextStyles: {
-                                    background: undefined,
-                                    opacity: 0
-                                },
-                                animating: false
-                            })
-                        }, 200)
-                    });
-                }, 700)
-            });
-        }
+        this.setState({background: 'rgb(' + rgb.join(', ') + ')'});
     }
 
     resetBackground() {

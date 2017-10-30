@@ -5,15 +5,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background 700ms $animation-curve-fast-out-slow-in;
 
-    .background {
-        transition: opacity 700ms $animation-curve-fast-out-slow-in;
+    .background-gradient {
+        background: radial-gradient(circle at center center, rgba(0, 0, 0, 0) 5vmin, rgba(0, 0, 0, 0.7) 80%, rgba(0, 0, 0, 0.9) 100%);
         position: absolute;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
-        opacity: 0;
     }
 
     .content-wrap {
