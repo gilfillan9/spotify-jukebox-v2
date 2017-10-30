@@ -2,6 +2,8 @@
     height: 100%;
     position: relative;
 
+    overflow: hidden;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,10 +12,12 @@
     .background-gradient {
         background: radial-gradient(circle at center center, rgba(0, 0, 0, 0) 5vmin, rgba(0, 0, 0, 0.7) 80%, rgba(0, 0, 0, 0.9) 100%);
         position: absolute;
-        top: 0;
+        top: -$footer-height;
         right: 0;
-        bottom: 0;
+        bottom: -$footer-height;
         left: 0;
+
+        transition: transform 700ms $animation-curve-fast-out-slow-in;
     }
 
     .content-wrap {
@@ -94,6 +98,10 @@
             transform: translateY(-($footer-height / 2));
         }
 
+        .background-gradient {
+            transform: translateY(-($footer-height / 2));
+        }
+
         .title {
             color: #eee;
         }
@@ -110,6 +118,9 @@
 
         &.idle-mode {
             .content-wrap {
+                transform: none;
+            }
+            .background-gradient {
                 transform: none;
             }
         }
