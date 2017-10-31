@@ -17,8 +17,10 @@ class Search extends React.Component {
             this.setState({
                 query: this._input.value
             });
-
-            this.props.history.push("/search?query=" + encodeURIComponent(this._input.value));
+            
+            if (this._input.value !== '') {
+                this.props.history.push("/search?query=" + encodeURIComponent(this._input.value));
+            }
         }
     }
 
