@@ -5,6 +5,7 @@ import {List, ListDivider, ListItem} from "react-toolbox/lib/list";
 import {Button} from "react-toolbox/lib/button";
 import Sortable from "react-sortablejs";
 import {eventPassthrough, arrayEquals} from "../../libs/helpers";
+import State from "../../libs/State";
 
 class PlayQueue extends React.Component {
     onRemove = eventPassthrough(this, 'onRemoveTrack');
@@ -41,8 +42,13 @@ class PlayQueue extends React.Component {
         if (this.state.open) {
             playQueueStyles.push(styles.open);
         }
+
+        if (State.kioskMode) {
+            playQueueStyles.push(styles['kiosk-mode']);
+        }
+
         const title = (
-            <ListItem caption='Play queue' ripple={false}
+            <ListItem caption='Play queue' className={styles['kiosk-mode']} ripple={false}
                       leftActions={[(
                           <Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>
                       )]}/>
@@ -60,7 +66,7 @@ class PlayQueue extends React.Component {
                     <List className={listStyles.join(" ")}>
                         {title}
                         {currentItem}
-                        <ListDivider />
+                        <ListDivider/>
                     </List>
                     <div className={styles.tracks} onScroll={this.onScroll.bind(this)} ref={(el) => this._list = el}>
                         <List>

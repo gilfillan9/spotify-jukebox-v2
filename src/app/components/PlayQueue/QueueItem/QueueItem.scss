@@ -79,6 +79,21 @@
             }
         }
     }
+
+    &.kiosk-mode {
+        .item {
+            .content-wrap {
+                .itemText {
+                    &.primary {
+                        color: #fff;
+                    }
+                }
+                .artists a {
+                    color: rgba(255, 255, 255, 0.7);
+                }
+            }
+        }
+    }
 }
 
 .current {

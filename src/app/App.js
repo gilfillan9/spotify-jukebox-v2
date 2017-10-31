@@ -8,7 +8,7 @@ import Socket from "./libs/Socket";
 import Api from "./libs/Api";
 import Spotify from "./libs/Spotify";
 import Settings from "./components/Settings";
-import {BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Switch, Route} from "react-router-dom";
 import State from "./libs/State";
 
 class App extends React.Component {
@@ -25,8 +25,7 @@ class App extends React.Component {
         connected: true,
         settings: false,
         idleMode: true,
-        idleTimeout: null,
-        kioskMode: false
+        idleTimeout: null
     };
 
     componentWillMount() {
@@ -93,14 +92,16 @@ class App extends React.Component {
     onSettingsOpen() {
         this.setState({
             settings: true
-        })
+        });
     }
 
     updateIdle() {
         if (this.state.idleTimeout) clearTimeout(this.state.idleTimeout);
+        if (this.state.kioskTimeout) clearTimeout(this.state.kioskTimeout);
         this.setState({
             idleMode: false,
-            idleTimeout: setTimeout(this.startIdleMode.bind(this), 1000)
+            idleTimeout: setTimeout(this.startIdleMode.bind(this), 5000),
+            kioskTimeout: setTimeout(this.resetKioskMode.bind(this), 30000),
         })
     }
 
@@ -109,31 +110,56 @@ class App extends React.Component {
             idleMode: true,
             idleTimeout: null
         });
+    }
 
-        console.log("Idle mode");
-        if (State.kioskMode) {
+    resetKioskMode() {
+        return;
+        if (!State.kioskMode) return;
+        if (State.kioskMode && window.location.pathname !== '/current') {
             //TODO navigate to current page
             window.history.pushState({}, '', '/current');
         }
     }
 
+
     render() {
+
+
+        let mainContent = (
+            <div>
+                <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
+                <View queue={this.state.queue} progress={this.state.progress}/>
+                <PlayQueue queue={this.state.queue}
+                           onRemoveTrack={this.onRemoveTrack.bind(this)}
+                           onReorder={this.onReorder.bind(this)}/>
+                <Footer currentTrack={this.state.queue[0]}
+                        progress={this.state.progress}
+                        volume={this.state.volume}
+                        playState={this.state.playState}/>
+                <Settings active={this.state.settings}
+                          onClose={this.onSettingsClose.bind(this)}/>
+            </div>
+        );
+
         return (
             <BrowserRouter>
                 <div onClick={this.updateIdle.bind(this)} onTouchMove={this.updateIdle.bind(this)} onMouseMove={this.updateIdle.bind(this)}>
                     <Notifications/>
-                    <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
-                    <View queue={this.state.queue} progress={this.state.progress}/>
-                    <PlayQueue queue={this.state.queue}
-                               onRemoveTrack={this.onRemoveTrack.bind(this)}
-                               onReorder={this.onReorder.bind(this)}/>
-                    <Footer currentTrack={this.state.queue[0]}
-                            progress={this.state.progress}
-                            volume={this.state.volume}
-                            playState={this.state.playState}
-                    />
-                    <Settings active={this.state.settings}
-                              onClose={this.onSettingsClose.bind(this)}/>
+                    {State.kioskMode ? (
+                        <Switch>
+                            <Route path='/current'>
+                                <div>
+                                    <View queue={this.state.queue} idleMode={this.state.idleMode} progress={this.state.progress} full={true}/>
+                                    <Footer currentTrack={this.state.queue[0]}
+                                            progress={this.state.progress}
+                                            volume={this.state.volume}
+                                            playState={this.state.playState}
+                                            idleMode={this.state.idleMode}/>
+                                </div>
+                            </Route>
+                            <Route path='/'>{mainContent}</Route>
+                        </Switch>
+                    ) : mainContent}
                 </div>
             </BrowserRouter>
         );

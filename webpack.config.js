@@ -8,7 +8,7 @@ module.exports = {
     devtool: 'inline-source-map',
     watch: process.env.NODE_ENV != 'production',
     entry: [
-        path.join(__dirname, './src/app/index.js')
+        path.join(__dirname, 'src/app/index.js')
     ],
     output: {
         path: path.join(__dirname, 'build'),
@@ -19,7 +19,7 @@ module.exports = {
         extensions: ['', '.scss', '.css', '.js', '.json'],
         modulesDirectories: [
             'node_modules',
-            path.resolve(__dirname, './node_modules')
+            path.resolve(__dirname, 'node_modules')
         ]
     },
     module: {
@@ -38,7 +38,7 @@ module.exports = {
     postcss: [autoprefixer],
     sassLoader: {
         data: '@import "theme/_config.scss";',
-        includePaths: [path.resolve(__dirname, './src/app')]
+        includePaths: [path.resolve(__dirname, 'src/app')]
     },
     plugins: process.env.NODE_ENV != 'production' ? [
         new ExtractTextPlugin('bundle.css', {allChunks: true}),

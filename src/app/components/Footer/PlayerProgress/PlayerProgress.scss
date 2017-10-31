@@ -5,10 +5,16 @@
     left: 90px;
 
     &.kiosk-mode {
-        left: 0;
-
         .container .innerprogress {
             background: transparent;
+        }
+
+        &.current-page {
+            left: 0;
+        }
+
+        .label {
+            color: rgba(255, 255, 255, 0.8);
         }
     }
 }

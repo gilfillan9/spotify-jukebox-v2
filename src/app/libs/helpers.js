@@ -78,9 +78,13 @@ export function objCompare(obj1, obj2, noOpposite = false, seenObjects = []) {
     }
 }
 
+let colours_cache = {};
+
 
 export function getImageColour(url) {
-    return new Promise((resolve, reject) => {
+    if ('undefined' !== typeof colours_cache[url]) return colours_cache[url];
+
+    let result = new Promise((resolve, reject) => {
         let image = new Image();
         image.crossOrigin = "Anonymous";
 
@@ -104,6 +108,10 @@ export function getImageColour(url) {
 
         image.src = url;
     });
+
+    colours_cache[url] = result;
+
+    return result;
 }
 
 //From http://stackoverflow.com/questions/1855884/determine-font-color-based-on-background-color

@@ -55,13 +55,27 @@ a.link {
             }
         }
 
-        &:hover .art {
-            &::after {
-                opacity: 1;
-            }
+        &:hover {
 
-            &:hover::after {
-                background: rgba(0, 0, 0, 0.5);
+            .art {
+                &::after {
+                    opacity: 1;
+                }
+
+                &:hover::after {
+                    background: rgba(0, 0, 0, 0.5);
+                }
+            }
+        }
+    }
+
+    &.kiosk-mode {
+        color: #FFFFFF;
+        tbody {
+            tr {
+                &:hover {
+                    background: darken($palette-grey-800, 5);
+                }
             }
         }
     }

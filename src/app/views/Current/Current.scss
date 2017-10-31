@@ -92,7 +92,14 @@
     }
 
     &.kiosk-mode {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+
         background-color: #000;
+        margin-bottom: -$footer-height;
 
         .content-wrap {
             transform: translateY(-($footer-height / 2));

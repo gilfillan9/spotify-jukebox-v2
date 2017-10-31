@@ -5,17 +5,17 @@
     bottom: 0;
     left: 0;
     height: $footer-height;
-    background: white;
+    background: rgba(255, 255, 255, 0.5);
     transition: transform 700ms $animation-curve-fast-out-slow-in;
 
-    z-index: $z-index-higher;
+    z-index: 1001;
 
     &.kiosk-mode {
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.3);
+
+        &.idle-mode {
+            transform: translateY($footer-height - 4px);
+        }
     }
 
-    &.idle-mode {
-        transform: translateY($footer-height - 4px);
-    }
 }

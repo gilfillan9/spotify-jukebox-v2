@@ -6,6 +6,7 @@ import {Button} from "react-toolbox/lib/button";
 import styles from "./QueueItem.scss";
 import {eventPassthrough} from "../../../libs/helpers";
 import {Link} from "react-router-dom";
+import State from "../../../libs/State";
 
 
 class QueueItem extends React.Component {
@@ -13,6 +14,9 @@ class QueueItem extends React.Component {
         const classes = [styles.item];
         if (this.props.large) {
             classes.push(styles.large);
+        }
+        if(State.kioskMode) {
+            classes.push(styles['kiosk-mode']);
         }
 
         return (

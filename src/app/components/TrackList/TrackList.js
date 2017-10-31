@@ -7,6 +7,7 @@ import AlbumArt from "../AlbumArt";
 import Api from "../../libs/Api";
 import TrackActionMenu from "../TrackActionMenu";
 import moment from "moment";
+import State from "../../libs/State";
 
 const TrackModel = {
     title: {},
@@ -42,7 +43,7 @@ class TrackList extends React.Component {
 
     render() {
         return (
-            <Table className={styles.list} model={this.state.full ? (this.props.includeDateAdded ? TrackModelDateFull : TrackModelFull) : (this.props.includeDateAdded ? TrackModelDate : TrackModel)} source={this.props.tracks.map((track) => ({
+            <Table className={styles.list + ' ' + (State.kioskMode ? styles['kiosk-mode'] : '')} model={this.state.full ? (this.props.includeDateAdded ? TrackModelDateFull : TrackModelFull) : (this.props.includeDateAdded ? TrackModelDate : TrackModel)} source={this.props.tracks.map((track) => ({
                 image: (<AlbumArt className={styles.art} album={track.album} fill onClick={this.onClickAlbum.bind(this, track.uri, this.props.source)}/>),
                 title: track.name,
                 duration: DurationTime({

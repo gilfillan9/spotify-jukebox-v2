@@ -44,4 +44,16 @@
             }
         }
     }
+
+    &.kiosk-mode {
+        .title {
+            color: #eee;
+        }
+
+        .details-wrap {
+            a, span {
+                color: #bbb;
+            }
+        }
+    }
 }

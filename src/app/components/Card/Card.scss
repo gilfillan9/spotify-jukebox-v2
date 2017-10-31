@@ -43,6 +43,10 @@
         .subtitle {
             font-size: 13px;
         }
+
+        &.kiosk-mode {
+            background: $palette-grey-800;
+        }
     }
 
     a {

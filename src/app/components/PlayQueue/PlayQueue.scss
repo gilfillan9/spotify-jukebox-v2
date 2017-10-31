@@ -60,8 +60,21 @@
         }
     }
 
-}
+    &.kiosk-mode {
+        background: $palette-grey-900;
 
-.divider {
-    margin: 0;
+        .current {
+            .button {
+                background: rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        hr {
+            background: #111111;
+        }
+    }
+
+    .kiosk-mode * {
+        color: #FFFFFF !important;
+    }
 }
