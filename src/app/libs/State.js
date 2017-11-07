@@ -1,5 +1,6 @@
 let state = {
-    kioskMode: window.location.pathname === '/kiosk' || window.localStorage.getItem('kiosk') !== null
+    kioskMode: window.localStorage.getItem('kiosk') !== null,
+    rotate: window.localStorage.getItem('rotate') !== null
 };
 
 export default state;

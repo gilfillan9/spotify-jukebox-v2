@@ -8,6 +8,7 @@ import Album from "./Album";
 import Artist from "./Artist";
 import Category from "./Category";
 import Search from "./Search";
+import Kiosk from "./Kiosk";
 import {withRouter} from 'react-router-dom'
 import State from "../libs/State";
 
@@ -22,6 +23,7 @@ class Main extends React.Component {
                 <Route path="/artist/:artist" component={Artist}/>
                 <Route path="/category/:category" component={Category}/>
                 <Route path="/search" component={Search}/>
+                <Route path="/kiosk" component={Kiosk}/>
             </main>
         );
     }
