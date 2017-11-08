@@ -26,9 +26,9 @@ class QueueItem extends React.Component {
                     avatar={(<AlbumArt album={this.props.track.album} fill/>)}
                     itemContent={(<div className={styles['content-wrap']}>
                         <ListItemText theme={styles} primary>{this.props.track.name}</ListItemText>
-                        <ListItemText theme={styles} className={styles.artists}>{this.props.track.artists.map((artist, index) => (
+                        <ListItemText theme={styles} className={styles.artists}>{this.props.track.artists instanceof Array ? this.props.track.artists.map((artist, index) => (
                             <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
-                        ))}</ListItemText>
+                        )) : ''}</ListItemText>
                     </div>)}
                     caption={this.props.track.name}
                     legend={this.props.track.artists instanceof Array ? this.props.track.artists.map((artist) => artist.name).join(", ") : ''}
