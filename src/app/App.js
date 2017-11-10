@@ -129,9 +129,9 @@ class App extends React.Component {
             <div>
                 <Header onSettingsOpen={this.onSettingsOpen.bind(this)}/>
                 <View queue={this.state.queue} progress={this.state.progress}/>
-                <PlayQueue queue={this.state.queue}
+                {!State.kioskMode ? <PlayQueue queue={this.state.queue}
                            onRemoveTrack={this.onRemoveTrack.bind(this)}
-                           onReorder={this.onReorder.bind(this)}/>
+                           onReorder={this.onReorder.bind(this)}/> : undefined}
                 <Footer currentTrack={this.state.queue[0]}
                         progress={this.state.progress}
                         volume={this.state.volume}

@@ -72,6 +72,7 @@
     &.kiosk {
         background: #303030;
         color: $color-dark-contrast;
+        right: 0;
 
         .page-raised {
             background: $palette-grey-800;
