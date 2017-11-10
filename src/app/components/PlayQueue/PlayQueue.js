@@ -48,7 +48,7 @@ class PlayQueue extends React.Component {
         }
 
         const title = (
-            <ListItem caption='Play queue' className={styles['kiosk-mode']} ripple={false}
+            <ListItem caption='Play queue' className={State.kioskMode ? styles['kiosk-mode'] : ''} ripple={false}
                       leftActions={[(
                           <Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>
                       )]}/>
