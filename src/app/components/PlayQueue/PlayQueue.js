@@ -1,11 +1,13 @@
+import DurationTime from "duration-time-format";
 import React from "react";
+import Sortable from "react-sortablejs";
+import { Button } from "react-toolbox/lib/button";
+import { List, ListDivider, ListItem } from "react-toolbox/lib/list";
+import { arrayEquals, eventPassthrough } from "../../libs/helpers";
+import State from "../../libs/State";
 import styles from "./PlayQueue.scss";
 import QueueItem from "./QueueItem";
-import {List, ListDivider, ListItem} from "react-toolbox/lib/list";
-import {Button} from "react-toolbox/lib/button";
-import Sortable from "react-sortablejs";
-import {eventPassthrough, arrayEquals} from "../../libs/helpers";
-import State from "../../libs/State";
+import moment from "moment";
 
 class PlayQueue extends React.Component {
     onRemove = eventPassthrough(this, 'onRemoveTrack');
@@ -47,11 +49,30 @@ class PlayQueue extends React.Component {
             playQueueStyles.push(styles['kiosk-mode']);
         }
 
+        let titleText = "Play queue";
+
+        if (this.props.queue.length > 0) {
+            let durationSeconds = this.props.queue.map((track) => track.duration_ms / 1000).reduce((prev, next) => (prev + next), 0);
+            let progress = this.props.progress || 0;
+
+            let durationFormatted = DurationTime({
+                keepDecimals: 0,
+            }).format(durationSeconds - progress);
+
+            titleText += " - " + durationFormatted;
+
+            let now = moment().add(durationSeconds, "second");
+
+            titleText += " (" + now.format("h:mma") + ")"
+        }
+
         const title = (
-            <ListItem caption='Play queue' className={State.kioskMode ? styles['kiosk-mode'] : ''} ripple={false}
-                      leftActions={[(
-                          <Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open"/>
-                      )]}/>
+            <ListItem caption={titleText} className={State.kioskMode ? styles['kiosk-mode'] : ''} ripple={false}
+                leftActions={[
+                    (
+                        <Button mini floating onClick={() => this.setState({open: !this.state.open})} className={styles.button} icon={this.state.open ? "close" : "add"} key="open" />
+                    ),
+                ]} />
         );
 
         if (this.props.queue.length > 0) {
@@ -84,12 +105,12 @@ class PlayQueue extends React.Component {
                         {title}
                     </List>
                 </div>
-            )
+            );
         }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        return nextState !== this.state || !arrayEquals(this.props.queue, nextProps.queue);
+        return nextState !== this.state || !arrayEquals(this.props.queue, nextProps.queue) || this.props.progress !== nextProps.progress;
     }
 }
 
