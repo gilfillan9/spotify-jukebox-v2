@@ -10,6 +10,3 @@ if (State.kioskMode) {
     document.getElementsByTagName('body')[0].style.backgroundColor = '#000';
     document.getElementById('app').className += ' kiosk-mode';
 }
-if (State.rotate) {
-    document.getElementById('app').className += ' rotate';
-}

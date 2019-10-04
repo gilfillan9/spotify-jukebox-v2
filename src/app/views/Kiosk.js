@@ -10,10 +10,8 @@ class Kiosk extends React.Component {
 
     componentWillMount() {
         localStorage.setItem('kiosk', true);
-        localStorage.setItem('rotate', true);
         window.location.href = '/current';
     }
-
 
 }
 
