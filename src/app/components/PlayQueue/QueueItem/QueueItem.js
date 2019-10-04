@@ -12,9 +12,6 @@ import State from "../../../libs/State";
 class QueueItem extends React.Component {
     render() {
         const classes = [styles.item];
-        if (this.props.large) {
-            classes.push(styles.large);
-        }
         if(State.kioskMode) {
             classes.push(styles['kiosk-mode']);
         }
@@ -42,7 +39,7 @@ class QueueItem extends React.Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return this.props.selected !== nextProps.selected || this.props.track !== nextProps.track || this.props.large !== nextProps.large;
+        return this.props.selected !== nextProps.selected || this.props.track !== nextProps.track;
     }
 
     remove = eventPassthrough(this, 'onRemove', () => this.props.track.uuid);

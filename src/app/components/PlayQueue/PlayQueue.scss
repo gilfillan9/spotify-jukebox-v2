@@ -52,14 +52,6 @@
         }
     }
 
-    &.open {
-        width: $play-queue-open-width;
-
-        @media (min-width: $play-queue-width-large-size) {
-            width: $play-queue-open-width-large;
-        }
-    }
-
     &.kiosk-mode {
         background: $palette-grey-900;
 

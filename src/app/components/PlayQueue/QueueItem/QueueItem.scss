@@ -60,26 +60,6 @@
 
     }
 
-    &.large {
-        .item {
-            max-width: $play-queue-open-width;
-
-            @media (min-width: $play-queue-width-large-size) {
-                max-width: $play-queue-open-width-large;
-            }
-
-            .content-wrap {
-                .itemText {
-                    width: $play-queue-open-width - 144px;
-
-                    @media (min-width: $play-queue-width-large-size) {
-                        width: $play-queue-open-width-large  - 144px;
-                    }
-                }
-            }
-        }
-    }
-
     &.kiosk-mode {
         .item {
             .content-wrap {
