@@ -5,8 +5,7 @@
     padding: 15px 10px 15px 20px;
     min-width: 350px;
     max-width: 500px;
-    background: rgba(30, 30, 30, 0.2);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.2);
     transition: transform 700ms $animation-curve-fast-out-slow-in;
     z-index: 2;
     display: flex;
@@ -17,11 +16,13 @@
         font-size: 20px;
         z-index: 2;
         position: relative;
+        color: #ddd;
     }
 
 
     .album-art {
         flex: 0 0 auto;
+        margin: -15px 0 -15px -20px;
     }
 
     .details {
@@ -39,14 +40,15 @@
         padding-bottom: 6px;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis
+        text-overflow: ellipsis;
+        color: #eee;
     }
 
     .artists {
         font-size: 14px;
         a {
             margin-right: 4px;
-            color: $color-text-secondary;
+            color: #bbb;
 
             &::after {
                 content: ',';
@@ -63,24 +65,11 @@
     }
 
     &.idle-mode {
-        transform: translateX(100%);
+        transform: translateX(calc(100% + 10px));
     }
 
     &.kiosk-mode {
         top: 50px;
         bottom: auto;
-        background: rgba(255, 255, 255, 0.2);
-
-        h5 {
-            color: #ddd;
-        }
-
-        .title {
-            color: #eee;
-        }
-
-        .artists a {
-            color: #bbb;
-        }
     }
 }

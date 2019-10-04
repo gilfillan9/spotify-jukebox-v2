@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     transition: background 700ms $animation-curve-fast-out-slow-in;
+    background-color: #000;
 
     .background-gradient {
         background: radial-gradient(circle at center center, rgba(0, 0, 0, 0) 5vmin, rgba(0, 0, 0, 0.7) 80%, rgba(0, 0, 0, 0.9) 100%);
@@ -50,6 +51,10 @@
                 .artists a {
                     color: rgba(0, 0, 0, .7);
                 }
+            }
+
+            &::after {
+                background: radial-gradient(ellipse at top center, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0) 70%);
             }
         }
 
@@ -98,7 +103,6 @@
         bottom: 0;
         left: 0;
 
-        background-color: #000;
         margin-bottom: -$footer-height;
 
         .content-wrap {
@@ -107,20 +111,6 @@
 
         .background-gradient {
             transform: translateY(-($footer-height / 2));
-        }
-
-        .title {
-            color: #eee;
-        }
-
-        .artists a {
-            color: #aaa;
-        }
-
-        .details {
-            &::after {
-                background: radial-gradient(ellipse at top center, rgba(0, 0, 0, 0.4) 30%, rgba(0, 0, 0, 0) 70%);
-            }
         }
 
         &.idle-mode {

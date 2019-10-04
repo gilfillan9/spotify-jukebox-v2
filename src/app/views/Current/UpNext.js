@@ -16,7 +16,7 @@ class UpNext extends React.Component {
 
         return (
             <div className={styles['up-next'] + ' ' + (State.kioskMode ? styles['kiosk-mode'] : '') + ' ' + (hide ? styles['idle-mode'] : '')}>
-                <AlbumArt className={styles['album-art']} album={track.album} height={80}/>
+                <AlbumArt className={styles['album-art']} album={track.album} height={102}/>
                 <div className={styles.details}>
                     <h5>Up Next</h5>
                     <span className={styles.title}>{track.name}</span>
