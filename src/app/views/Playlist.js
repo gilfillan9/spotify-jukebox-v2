@@ -92,7 +92,7 @@ class Playlist extends React.Component {
 
     load() {
         Spotify.load().then(() => {
-            Spotify.getPlaylist(this.props.match.params.user, this.props.match.params.playlist, {market: "GB"}).then((result) => {
+            Spotify.getPlaylist(this.props.match.params.playlist, {market: "GB"}).then((result) => {
                 this.setState({
                     uri: result.uri,
                     name: result.name,
@@ -111,7 +111,6 @@ class Playlist extends React.Component {
 
     loadMoreTracks() {
         Spotify.load().then(() => {
-            Spotify.getPlaylistTracks(this.props.match.params.user, this.props.match.params.playlist, {
                 offset: this.state.tracks.length,
                 market: "GB"
             }).then((result) => {
