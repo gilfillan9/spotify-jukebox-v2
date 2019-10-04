@@ -51,13 +51,13 @@ class TrackList extends React.Component {
                     colonNumber: track.duration_ms / 1000 > 3600 ? 2 : 1
                 }).format(track.duration_ms / 1000),
                 artist: (
-                    <div>{track.artists instanceof Array ? track.artists.map((artist, index) => (
+                    <div>{Array.isArray(track.artists)? track.artists.map((artist, index) => (
                         <Link key={index} to={"/artist/" + artist.id} className={styles['link']}>{artist.name}</Link>
                     )) : undefined}</div>
                 ),
-                album: (
+                album:  track.album ? (
                     <Link to={"/album/" + track.album.id} className={styles['link']}>{track.album.name}</Link>
-                ),
+                ) : <div/>,
                 actions: (<TrackActionMenu track={track}/>),
                 added_at: moment(track.added_at).fromNow()
             }))} selectable={false}/>

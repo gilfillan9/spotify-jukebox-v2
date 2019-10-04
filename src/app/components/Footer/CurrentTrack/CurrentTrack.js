@@ -23,7 +23,7 @@ export default ({track, hide}) => {
                         <Link to={"/artist/" + artist.id} key={artist.id + "-" + index}>{artist.name}</Link>
                     )) : undefined}</span>
                     <span className={styles.separator}>-</span>
-                    <Link className={styles.album} to={"/album/" + track.album.id}>{track.album.name}</Link>
+                    {track.album ? <Link className={styles.album} to={"/album/" + track.album.id}>{track.album.name}</Link> : <span/>}
                 </div>
             </div> : undefined}
         </div>

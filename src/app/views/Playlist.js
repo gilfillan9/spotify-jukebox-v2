@@ -97,7 +97,7 @@ class Playlist extends React.Component {
                     uri: result.uri,
                     name: result.name,
                     description: result.description,
-                    tracks: result.tracks.items.map((track) => Object.assign(track.track, {added_at: track.added_at})),
+                    tracks: result.tracks.items.filter((val) => !!val.track).map((track) => Object.assign(track.track, {added_at: track.added_at})),
                     art: result.images.length > 0 ? result.images[0].url : '',
                     loading: result.tracks.total > result.tracks.items.length,
                 }, () => {
@@ -111,11 +111,12 @@ class Playlist extends React.Component {
 
     loadMoreTracks() {
         Spotify.load().then(() => {
+            Spotify.getPlaylistTracks(this.props.match.params.playlist, {
                 offset: this.state.tracks.length,
                 market: "GB"
             }).then((result) => {
                 this.setState({
-                    tracks: this.state.tracks.concat(result.items.map((track) => Object.assign(track.track, {added_at: track.added_at}))),
+                    tracks: this.state.tracks.concat(result.items.filter((val) => !!val.track).map((track) => Object.assign(track.track, {added_at: track.added_at}))),
                     loading: result.total > this.state.tracks.length + result.items.length,
                 }, () => {
                     if (result.total > this.state.tracks.length) {
