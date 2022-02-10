@@ -35,7 +35,7 @@
     "eslint-plugin-react": "^6.1.2",
     "extract-text-webpack-plugin": "^1.0.1",
     "internal-ip": "^1.2.0",
-    "node-sass": "^3.8.0",
+    "node-sass": "^7.0.0",
     "normalize.css": "^4.2.0",
     "postcss-loader": "^0.10.1",
     "react": "^0.14",
