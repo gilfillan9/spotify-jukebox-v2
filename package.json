@@ -79,7 +79,7 @@
     "query-string": "^4.3.4",
     "react-router-dom": "^4.1.1",
     "react-sortablejs": "^1.1.0",
-    "request": "^2.74.0",
+    "request": "^2.88.2",
     "shuffle-array": "^1.0.0",
     "socket.io": "^2.0.3",
     "sortablejs": "^1.4.2",
